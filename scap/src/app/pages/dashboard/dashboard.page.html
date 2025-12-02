@@ -1,0 +1,92 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="dashboard-toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button color="light" auto-hide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="light">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="welcome-header">
+    <div class="welcome-content">
+      <h2>Olá, Blairon!</h2>
+      <p>Gerencie seus eventos e projetos acadêmicos.</p>
+    </div>
+  </div>
+
+  <div class="stats-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <div class="stat-card">
+            <div class="icon-circle blue">
+              <ion-icon name="calendar-outline"></ion-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ stats.eventosAtivos }}</h3>
+              <p>Eventos Ativos</p>
+            </div>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <div class="stat-card">
+            <div class="icon-circle green">
+              <ion-icon name="document-text-outline"></ion-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ stats.meusProjetos }}</h3>
+              <p>Meus Projetos</p>
+            </div>
+          </div>
+        </ion-col>
+
+        <ion-col size="12">
+          <div class="stat-card long-card" routerLink="/avaliar">
+            <div class="icon-circle orange">
+              <ion-icon name="time-outline"></ion-icon>
+            </div>
+            <div class="stat-info-row">
+              <div class="text">
+                <h3>{{ stats.avaliacoesPendentes }} Pendências</h3>
+                <p>Projetos aguardando sua avaliação</p>
+              </div>
+              <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="section-title">
+    <h3>Próximos Eventos</h3>
+    <ion-button fill="clear" size="small">Ver todos</ion-button>
+  </div>
+
+  <div class="event-list">
+    <ion-card *ngFor="let evento of proximosEventos" class="event-card">
+      <div class="event-row">
+        <div class="date-box">
+          <span class="day">{{ evento.data.split('/')[0] }}</span>
+          <span class="month">NOV</span>
+        </div>
+        <div class="event-details">
+          <h4>{{ evento.titulo }}</h4>
+          <p class="location">
+            <ion-icon name="location-outline"></ion-icon>
+            {{ evento.local }}
+          </p>
+        </div>
+        <div class="status-indicator" [class.active]="evento.status === 'Aberto'">
+          {{ evento.status === 'Aberto' ? 'Aberto' : 'Andamento' }}
+        </div>
+      </div>
+    </ion-card>
+  </div>
+</ion-content>

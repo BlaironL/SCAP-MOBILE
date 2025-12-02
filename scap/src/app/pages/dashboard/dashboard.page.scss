@@ -1,0 +1,158 @@
+/* Fundo Geral (Cinza Suave) */
+ion-content {
+    --background: #f4f5f8;
+  }
+  
+  /* Header Curvo */
+  .dashboard-toolbar {
+    --background: var(--ion-color-primary);
+    --color: white;
+  }
+  
+  .welcome-header {
+    background: var(--ion-color-primary);
+    padding: 10px 20px 60px 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    margin-bottom: -40px;
+    
+    .welcome-content {
+      color: white;
+      h2 { font-weight: 800; font-size: 1.8rem; margin: 0; }
+      p { margin: 5px 0 0 0; opacity: 0.9; font-size: 0.95rem; }
+    }
+  }
+  
+  /* Container */
+  .stats-container {
+    padding: 0 10px;
+  }
+  
+  /* CARDS DE ESTATÍSTICA (Estilo "Avaliar") */
+  .stat-card {
+    background: #ffffff; /* Fundo Branco Explícito */
+    border-radius: 16px; /* Borda Arredondada */
+    padding: 16px;
+    
+    /* A SOMBRA QUE FUNCIONA NO ANDROID */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    transition: transform 0.2s;
+  
+    &:active { transform: scale(0.98); }
+  }
+  
+  .icon-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    
+    &.blue { background: #e0f2fe; color: var(--ion-color-primary); }
+    &.green { background: #dcfce7; color: var(--ion-color-success); }
+    &.orange { background: #fef3c7; color: #b48900; }
+  }
+  
+  .stat-info h3 { 
+    font-size: 1.8rem; 
+    font-weight: 800; 
+    margin: 0; 
+    color: #1e293b; /* Texto Escuro Profissional */
+  }
+  
+  .stat-info p { 
+    margin: 0; 
+    font-size: 0.8rem; 
+    color: #64748b; /* Texto Cinza Suave */
+    font-weight: 600; 
+  }
+  
+  /* Card Longo */
+  .long-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    
+    .stat-info-row {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .text h3 { font-size: 1.2rem; }
+      .arrow-icon { color: #94a3b8; }
+    }
+  }
+  
+  /* Lista de Eventos */
+  .section-title {
+    padding: 25px 20px 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    h3 { font-size: 1.2rem; font-weight: 800; color: #1e293b; margin: 0; }
+  }
+  
+  .event-list {
+    padding: 0 16px 20px 16px;
+  }
+  
+  /* CARD DE EVENTO (Estilo "Avaliar") */
+  .event-card {
+    background: #ffffff;
+    border-radius: 16px;
+    
+    /* Sombra Consistente */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    
+    margin: 0 0 12px 0;
+    padding: 16px; /* Padding interno maior */
+  }
+  
+  .event-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .date-box {
+    background: #f1f5f9;
+    min-width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    .day { font-size: 1.3rem; font-weight: 800; color: #1e293b; line-height: 1; }
+    .month { font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+  }
+  
+  .event-details {
+    flex: 1;
+    h4 { margin: 0 0 4px 0; font-size: 1rem; font-weight: 700; color: #1e293b; }
+    .location { margin: 0; font-size: 0.85rem; color: #64748b; display: flex; align-items: center; gap: 4px; }
+  }
+  
+  .status-indicator {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #f1f5f9;
+    color: #64748b;
+    
+    &.active {
+      background: #dcfce7;
+      color: var(--ion-color-success);
+    }
+  }

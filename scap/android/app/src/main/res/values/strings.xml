@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">scap</string>
+    <string name="title_activity_main">scap</string>
+    <string name="package_name">com.scap.app</string>
+    <string name="custom_url_scheme">com.scap.app</string>
+</resources>

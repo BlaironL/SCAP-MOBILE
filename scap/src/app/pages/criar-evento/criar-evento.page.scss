@@ -1,0 +1,63 @@
+/* CORREÇÃO DO HEADER PARA ANDROID */
+ion-header {
+    background-color: var(--ion-color-primary); /* Pinta o fundo da barra de status */
+    padding-top: var(--ion-safe-area-top); /* Empurra a toolbar para baixo */
+  }
+  
+  ion-toolbar {
+    --background: transparent; /* Toolbar transparente para mostrar a cor do header */
+    --color: white; /* Texto branco */
+    --min-height: 60px; /* Altura mais robusta */
+  }
+  
+  ion-title {
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  
+  /* Conteúdo */
+  ion-content {
+    --background: #f4f5f8;
+  }
+  
+  .header-text {
+    margin-bottom: 25px;
+    h2 { font-weight: 800; color: #1e293b; margin: 0 0 5px 0; font-size: 1.5rem; }
+    p { color: #64748b; margin: 0; font-size: 0.95rem; }
+  }
+  
+  .form-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .custom-input, ion-textarea {
+    --background: #ffffff;
+    --border-radius: 12px;
+    --border-color: #cbd5e1;
+    --border-width: 1px;
+    --highlight-color-focused: var(--ion-color-primary);
+    --padding-start: 15px;
+    --color: #1e293b !important;
+    --placeholder-color: #94a3b8;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    
+    &.has-focus { --border-color: var(--ion-color-primary); }
+  }
+  
+  ion-icon { color: #64748b; margin-right: 8px; }
+  
+  .submit-btn {
+    margin-top: 10px;
+    --box-shadow: 0 10px 25px rgba(0, 86, 179, 0.25);
+    font-weight: 700;
+    --border-radius: 12px;
+    height: 50px;
+    font-size: 1.1rem;
+  }

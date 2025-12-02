@@ -1,0 +1,7 @@
+{
+  "name": "scap",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

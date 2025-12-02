@@ -1,0 +1,57 @@
+<ion-content class="login-content">
+  <div class="login-container">
+    
+    <div class="login-header">
+      <div class="logo-box">
+        <h1>SCAP</h1>
+      </div>
+      <h2>Bem-vindo de volta!</h2>
+      <p>Faça login para gerenciar seus eventos.</p>
+    </div>
+
+    <div class="form-section">
+      <ion-input
+        class="custom-input"
+        label="E-mail Institucional"
+        label-placement="floating"
+        fill="outline"
+        placeholder="seu@email.com"
+        type="email"
+        [(ngModel)]="credentials.email"
+      >
+        <ion-icon slot="start" name="mail-outline"></ion-icon>
+      </ion-input>
+
+      <ion-input
+        class="custom-input"
+        label="Senha"
+        label-placement="floating"
+        fill="outline"
+        type="password"
+        placeholder="••••••••"
+        [(ngModel)]="credentials.password"
+      >
+        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+      </ion-input>
+
+      <div class="forgot-pass">
+        <a>Esqueceu a senha?</a>
+      </div>
+
+      <ion-button expand="block" shape="round" size="large" class="login-btn" (click)="login()" [disabled]="isLoading">
+        <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">Entrar</span>
+        <ion-icon slot="end" name="log-in-outline" *ngIf="!isLoading"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="login-footer">
+      <p>Ainda não tem conta?</p>
+      <ion-button fill="outline" shape="round" routerLink="/cadastro" color="secondary">
+        <ion-icon slot="start" name="person-add-outline"></ion-icon>
+        Criar Conta
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

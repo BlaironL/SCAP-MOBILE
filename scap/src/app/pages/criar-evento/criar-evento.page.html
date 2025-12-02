@@ -1,0 +1,43 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title color="light">Criar Novo Evento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding content-bg">
+
+  <div class="header-text">
+    <h2>Dados do Evento</h2>
+    <p>Preencha os campos abaixo para disponibilizar um novo evento.</p>
+  </div>
+
+  <div class="form-container form-card">
+    
+    <ion-input class="custom-input" label="Título do Evento" label-placement="floating" fill="outline" placeholder="Ex: Semana de Tecnologia" [(ngModel)]="evento.titulo">
+      <ion-icon slot="start" name="text-outline"></ion-icon>
+    </ion-input>
+
+    <ion-input class="custom-input" label="Localização" label-placement="floating" fill="outline" placeholder="Ex: Auditório Principal" [(ngModel)]="evento.local">
+      <ion-icon slot="start" name="location-outline"></ion-icon>
+    </ion-input>
+
+    <ion-input class="custom-input" id="open-date-modal" label="Data do Evento" label-placement="floating" fill="outline" [value]="evento.data | date: 'dd/MM/yyyy'" readonly>
+      <ion-icon slot="start" name="calendar-number-outline"></ion-icon>
+    </ion-input>
+
+    <ion-modal trigger="open-date-modal" [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime presentation="date" [(ngModel)]="evento.data" [showDefaultButtons]="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+
+    <ion-textarea class="custom-input" label="Descrição Completa" label-placement="floating" fill="outline" placeholder="Detalhes sobre o evento..." rows="5" [(ngModel)]="evento.descricao">
+    </ion-textarea>
+
+    <ion-button expand="block" shape="round" class="submit-btn" (click)="criar()">
+      Criar Evento
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+
+  </div>
+</ion-content>

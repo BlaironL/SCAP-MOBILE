@@ -1,0 +1,30 @@
+.menu-header {
+  padding: 20px;
+  background: var(--ion-color-secondary); /* Azul Escuro */
+  color: white;
+  
+  ion-avatar {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+    border: 2px solid var(--ion-color-tertiary);
+  }
+
+  h2 {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.9em;
+    margin: 5px 0 0 0;
+    opacity: 0.8;
+  }
+}
+
+ion-item.selected {
+  --color: var(--ion-color-primary);
+  --background: rgba(var(--ion-color-primary-rgb), 0.1);
+  font-weight: bold;
+}

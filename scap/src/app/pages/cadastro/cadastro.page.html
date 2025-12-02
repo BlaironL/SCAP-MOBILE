@@ -1,0 +1,46 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()" color="medium">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Criar Conta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <div class="form-container">
+    <div class="header-text">
+      <h2>Junte-se ao SCAP</h2>
+      <p>Preencha seus dados para começar.</p>
+    </div>
+
+    <div class="inputs-wrapper">
+      <ion-input class="custom-input" label="Nome Completo" label-placement="floating" fill="outline" placeholder="Ex: João Silva" [(ngModel)]="form.nome">
+        <ion-icon slot="start" name="person-outline"></ion-icon>
+      </ion-input>
+
+      <ion-input class="custom-input" label="E-mail" label-placement="floating" fill="outline" placeholder="seu@email.com" type="email" [(ngModel)]="form.email">
+        <ion-icon slot="start" name="mail-outline"></ion-icon>
+      </ion-input>
+
+      <ion-input class="custom-input" label="Senha" label-placement="floating" fill="outline" type="password" [(ngModel)]="form.senha">
+        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+      </ion-input>
+
+      <ion-input class="custom-input" label="Confirmar Senha" label-placement="floating" fill="outline" type="password" [(ngModel)]="form.confSenha">
+        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+      </ion-input>
+    </div>
+
+    <div class="button-area">
+      <ion-button expand="block" shape="round" size="large" class="register-btn" (click)="registrar()" [disabled]="isLoading">
+        <ion-spinner *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">Cadastrar</span>
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>
