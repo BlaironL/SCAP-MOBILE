@@ -1,55 +1,78 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
-    <ion-title color="light">Meus Projetos</ion-title>
-    <ion-buttons slot="end">
-      <ion-button color="light">
-        <ion-icon slot="icon-only" name="cloud-upload-outline"></ion-icon>
+<ion-content>
+  <div class="page-container">
+
+    <div class="header-title">
+      <h1>Meus Projetos</h1>
+      <p>Gerencie seus projetos acadêmicos e submissões.</p>
+    </div>
+
+    <!-- LISTA DE PROJETOS -->
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="card-top">
+          <span class="status-badge em-andamento">Em Andamento</span>
+          <ion-button fill="clear" color="medium">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="card-content">
+          <h3>Sistema SCAP Mobile</h3>
+          <p>Desenvolvimento de aplicativo para gestão de eventos acadêmicos utilizando Ionic e Angular.</p>
+        </div>
+
+        <div class="card-footer">
+          <div class="meta-info">
+            <div><ion-icon name="calendar-outline"></ion-icon> 12 Dez</div>
+            <div><ion-icon name="people-outline"></ion-icon> 3 Membros</div>
+          </div>
+          <div class="progress-section">
+            <span>Progresso <span>75%</span></span>
+            <ion-progress-bar value="0.75" color="primary"></ion-progress-bar>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="card-top">
+          <span class="status-badge pendente">Pendente</span>
+          <ion-button fill="clear" color="medium">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="card-content">
+          <h3>Análise de Marcas com IA</h3>
+          <p>Projeto de TCC focado em redes neurais convolucionais para detecção de similaridade.</p>
+        </div>
+
+        <div class="card-footer">
+          <div class="meta-info">
+            <div><ion-icon name="calendar-outline"></ion-icon> 20 Jan</div>
+            <div><ion-icon name="people-outline"></ion-icon> 1 Membro</div>
+          </div>
+          <div class="progress-section">
+            <span>Progresso <span>10%</span></span>
+            <ion-progress-bar value="0.1" color="warning"></ion-progress-bar>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PESQUISA -->
+    <div class="search-container">
+      <ion-searchbar placeholder="Buscar projetos..." mode="ios"></ion-searchbar>
+    </div>
+
+    <!-- NOVO PROJETO -->
+    <div class="new-project-btn">
+      <ion-button color="primary" mode="ios">
+        <ion-icon slot="start" name="add-outline"></ion-icon>
+        Novo Projeto
       </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+    </div>
 
-<ion-content class="ion-padding content-bg">
-
-  <div class="header-text">
-    <h2>Histórico de Submissões</h2>
-    <p>Acompanhe o status e as notas dos seus trabalhos.</p>
   </div>
-
-  <div class="projects-list">
-    <ion-card *ngFor="let projeto of meusProjetos" class="project-card">
-      
-      <div class="card-status-bar" [ngClass]="getStatusColor(projeto.status)">
-        <ion-icon [name]="projeto.status === 'Avaliado' ? 'checkmark-circle-outline' : 'time-outline'"></ion-icon>
-        <span>{{ projeto.status }}</span>
-      </div>
-
-      <div class="card-content">
-        <h3>{{ projeto.titulo }}</h3>
-        <p class="event-name">{{ projeto.evento }}</p>
-        <p class="date">Enviado em: {{ projeto.dataSubmissao }}</p>
-
-        <div class="grade-box" *ngIf="projeto.nota !== null">
-          <div class="grade-circle">
-            <span class="value">{{ projeto.nota | number:'1.1-1' }}</span>
-            <span class="label">Nota Final</span>
-          </div>
-          <div class="feedback-preview">
-            "{{ projeto.feedback }}"
-          </div>
-        </div>
-
-        <div class="actions">
-          <ion-button fill="outline" size="small" color="secondary">
-            <ion-icon name="eye-outline" slot="start"></ion-icon>
-            Detalhes
-          </ion-button>
-          <ion-button fill="clear" size="small" color="medium">
-            <ion-icon name="download-outline" slot="icon-only"></ion-icon>
-          </ion-button>
-        </div>
-      </div>
-    </ion-card>
-  </div>
-
 </ion-content>

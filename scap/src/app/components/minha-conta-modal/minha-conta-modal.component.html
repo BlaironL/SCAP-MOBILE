@@ -1,0 +1,32 @@
+<!-- 1. HEADER NG MODAL (may close button) -->
+<ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Minha Conta</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="fecharModal()">
+          <ion-icon name="close-circle-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <!-- 2. NILALAMAN NG MODAL -->
+  <ion-content class="ion-padding">
+  
+    <!-- Profile Simulation -->
+    <div class="profile-header">
+      <ion-avatar>
+        <!-- Gamitin ang app logo bilang placeholder -->
+        <img src="assets/icon/favicon.png" /> 
+      </ion-avatar>
+      <h3>Blairon Gonçalves</h3>
+      <p>blairongoncalvesdesousa@mac.com</p>
+    </div>
+  
+    <!-- Premium Button -->
+    <ion-button (click)="assinarPremium()" class="premium-button" expand="block" shape="round">
+      <ion-icon name="star-outline" slot="start"></ion-icon>
+      Assinar Premium
+    </ion-button>
+  
+  </ion-content>

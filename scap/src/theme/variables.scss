@@ -1,52 +1,48 @@
-// Paleta de Cores SCAP - Profissional
+// Paleta SCAP - Tema Dark & Modern (Inspirado nos Prints)
 :root {
-    /* Azul Institucional (Primary) */
-    --ion-color-primary: #0056b3;
-    --ion-color-primary-rgb: 0, 86, 179;
-    --ion-color-primary-contrast: #ffffff;
-    --ion-color-primary-contrast-rgb: 255, 255, 255;
-    --ion-color-primary-shade: #004c99;
-    --ion-color-primary-tint: #1a67bb;
+  /* Cores Principais - Mantendo a identidade Azul, mas adaptada */
+  --ion-color-primary: #0A84FF; /* iOS Blue - Mais vibrante no escuro */
+  --ion-color-primary-rgb: 10, 132, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #0974e0;
+  --ion-color-primary-tint: #2290ff;
+
+  --ion-color-secondary: #5E5CE6; /* Indigo - Bom para acentos */
+  --ion-color-secondary-rgb: 94, 92, 230;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #5351ca;
+  --ion-color-secondary-tint: #6e6ce8;
+
+  /* Fundos do Tema Escuro (Baseado nos prints) */
+  --ion-background-color: #000000; /* Preto Puro */
+  --ion-background-color-rgb: 0, 0, 0;
   
-    /* Azul Escuro / Texto (Secondary) */
-    --ion-color-secondary: #1e293b; 
-    --ion-color-secondary-rgb: 30, 41, 59;
-    --ion-color-secondary-contrast: #ffffff;
-    --ion-color-secondary-contrast-rgb: 255, 255, 255;
-    --ion-color-secondary-shade: #1a2434;
-    --ion-color-secondary-tint: #353e4f;
+  --ion-text-color: #FFFFFF;
+  --ion-text-color-rgb: 255, 255, 255;
+
+  --ion-color-step-50: #0d0d0d;
+  --ion-color-step-100: #1a1a1a;
+  --ion-color-step-150: #262626;
+  --ion-color-step-200: #333333;
   
-    /* Cinza Claro / Fundo (Light) */
-    --ion-color-light: #f1f5f9;
-    --ion-color-light-rgb: 241, 245, 249;
-    --ion-color-light-contrast: #000000;
-    --ion-color-light-contrast-rgb: 0, 0, 0;
-    --ion-color-light-shade: #d4d8db;
-    --ion-color-light-tint: #f2f6fa;
-  
-    /* Fundo Geral do App (Evita o branco puro estourado) */
-    --ion-background-color: #f8fafc;
-    --ion-text-color: #334155;
-    
-    /* Variável customizada para cards */
-    --scap-card-bg: #ffffff;
-    --scap-input-bg: #ffffff;
-  }
-  
-  /* AJUSTE PARA DARK MODE (MODO ESCURO)
-     Isso garante que o app fique bonito no seu Android quando estiver no modo escuro 
-  */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --ion-background-color: #0f172a; /* Azul muito escuro, quase preto */
-      --ion-text-color: #f1f5f9;
-      --ion-border-color: #334155;
-      
-      --ion-color-light: #1e293b;
-      --ion-color-light-rgb: 30, 41, 59;
-      --ion-color-light-contrast: #ffffff;
-  
-      --scap-card-bg: #1e293b; /* Cards cinza escuro */
-      --scap-input-bg: #1e293b;
-    }
-  }
+  /* Variáveis Customizadas do SCAP */
+  --scap-bg: #000000;
+  --scap-card-bg: #1C1C1E; /* Cinza Apple Dark */
+  --scap-text-primary: #FFFFFF;
+  --scap-text-secondary: #8E8E93; /* Cinza Texto */
+  --scap-border-color: #38383A;
+  --scap-card-radius: 20px;
+  --scap-input-bg: #1C1C1E;
+}
+
+/* Força os componentes Ionic a usarem o tema escuro */
+body {
+  --ion-background-color: var(--scap-bg);
+  --ion-text-color: var(--scap-text-primary);
+  --ion-toolbar-background: var(--scap-bg);
+  --ion-toolbar-color: var(--scap-text-primary);
+  --ion-item-background: var(--scap-card-bg);
+  --ion-item-color: var(--scap-text-primary);
+}

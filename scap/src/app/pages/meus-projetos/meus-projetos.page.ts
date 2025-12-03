@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
 import { 
   documentTextOutline, timeOutline, checkmarkCircleOutline, 
-  cloudUploadOutline, eyeOutline, downloadOutline 
-} from 'ionicons/icons';
+  cloudUploadOutline, eyeOutline, downloadOutline, searchOutline, addOutline, ellipsisVertical, calendarOutline, peopleOutline } from 'ionicons/icons';
 
-// IMPORTAÇÕES EXPLÍCITAS
+// IMPORTAÇÕES EXPLÍCITAS CORRIGIDAS
 import {
   IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonButton, IonIcon,
-  IonContent, IonCard
+  IonContent, IonCard,
+  IonSearchbar,   // <-- ADICIONADO (Correção do erro NG8001)
+  IonProgressBar  // <-- ADICIONADO (Correção do erro NG8001)
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -21,7 +22,9 @@ import {
   imports: [
     CommonModule, FormsModule,
     IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonButton, IonIcon,
-    IonContent, IonCard
+    IonContent, IonCard,
+    IonSearchbar,   // <-- ADICIONADO NA LISTA DE IMPORTS
+    IonProgressBar  // <-- ADICIONADO NA LISTA DE IMPORTS
   ]
 })
 export class MeusProjetosPage implements OnInit {
@@ -57,7 +60,7 @@ export class MeusProjetosPage implements OnInit {
   ];
 
   constructor() {
-    addIcons({ documentTextOutline, timeOutline, checkmarkCircleOutline, cloudUploadOutline, eyeOutline, downloadOutline });
+    addIcons({addOutline,ellipsisVertical,calendarOutline,peopleOutline,searchOutline,documentTextOutline,timeOutline,checkmarkCircleOutline,cloudUploadOutline,eyeOutline,downloadOutline});
   }
 
   ngOnInit() { }

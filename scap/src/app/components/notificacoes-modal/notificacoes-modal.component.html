@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title>Solicitações Pendentes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fechar()">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="notificacoes.length > 0">
+    <ion-item *ngFor="let notif of notificacoes">
+      <ion-label class="ion-text-wrap">
+        <h2>Solicitação de Projeto</h2>
+        <p>{{ notif.mensagem }}</p>
+      </ion-label>
+      <div slot="end" class="actions">
+        <ion-button fill="clear" color="danger" (click)="responder(notif, false)">
+          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="success" (click)="responder(notif, true)">
+          <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="notificacoes.length === 0" class="empty-state ion-padding ion-text-center">
+    <p>Nenhuma notificação pendente.</p>
+  </div>
+</ion-content>

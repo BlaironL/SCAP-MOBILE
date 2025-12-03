@@ -31,4 +31,8 @@ export const routes: Routes = [
     path: 'avaliar',
     loadComponent: () => import('./pages/avaliar/avaliar.page').then( m => m.AvaliarPage)
   },
+  {
+    path: 'enviar-projeto',
+    loadComponent: () => import('./pages/enviar-projeto/enviar-projeto.page').then( m => m.EnviarProjetoPage)
+  },
 ];

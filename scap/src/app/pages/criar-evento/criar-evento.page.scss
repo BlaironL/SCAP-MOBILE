@@ -1,63 +1,152 @@
-/* CORREÇÃO DO HEADER PARA ANDROID */
-ion-header {
-    background-color: var(--ion-color-primary); /* Pinta o fundo da barra de status */
-    padding-top: var(--ion-safe-area-top); /* Empurra a toolbar para baixo */
+/* Fundo Geral */
+ion-content {
+  --background: var(--scap-bg);
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Cabeçalho da Página */
+.page-header {
+  padding: 25px 20px 30px 20px;
+  animation: slideUp 0.6s ease-out;
+
+  h1 {
+    font-weight: 900;
+    font-size: 2rem;
+    margin: 0;
+
+    /* Gradiente Premium (igual ao dashboard) */
+    background: linear-gradient(90deg, #FFFFFF 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-  
-  ion-toolbar {
-    --background: transparent; /* Toolbar transparente para mostrar a cor do header */
-    --color: white; /* Texto branco */
-    --min-height: 60px; /* Altura mais robusta */
+
+  p {
+    margin: 10px 0 0 0;
+    color: var(--scap-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
-  
-  ion-title {
+}
+
+/* Card Dark Premium */
+.form-card {
+  background: var(--scap-card-bg);
+  padding: 26px;
+  border-radius: var(--scap-card-radius);
+  border: 1px solid var(--scap-border-color);
+  margin: 0 16px 40px 16px;
+  animation: slideUp 0.7s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Layout de Inputs */
+.form-grid {
+  display: grid;
+  gap: 22px;
+
+  /* Ajuste automático do grid */
+  grid-template-columns: 1fr 1fr;
+
+  .full-width { grid-column: span 2; }
+}
+
+/* Labels */
+.input-group {
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--scap-text-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+}
+
+/* Ion-item escuro, sem borda e moderno */
+ion-item {
+  --background: #2C2C2E;
+  --border-radius: 12px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --inner-padding-end: 8px;
+  --highlight-color-focused: var(--ion-color-primary);
+  --min-height: 52px;
+
+  border: 1px solid #3A3A3C;
+  border-radius: 12px;
+  transition: 0.15s ease;
+
+  &:focus-within {
+    border-color: var(--ion-color-primary);
+    background: #3a3a3c;
+  }
+}
+
+/* Inputs */
+ion-input, ion-textarea {
+  --color: #fff;
+  --placeholder-color: #8E8E93;
+  font-size: 1rem;
+}
+
+/* Ícones */
+ion-icon {
+  color: var(--scap-text-secondary);
+  font-size: 1.25rem;
+}
+
+/* Caixa de Upload */
+.upload-box {
+  background: #2C2C2E;
+  border-radius: var(--scap-card-radius);
+  border: 2px dashed #3A3A3C;
+  padding: 30px;
+  text-align: center;
+  color: var(--scap-text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  ion-icon {
+    font-size: 2.2rem;
+    color: var(--ion-color-primary);
+  }
+
+  &:active { transform: scale(0.97); }
+}
+
+/* Área de Ações */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 10px;
+
+  ion-button {
+    flex: 1;
+    height: 55px;
     font-weight: 700;
-    font-size: 1.2rem;
+    --border-radius: 16px;
+    font-size: 1.05rem;
   }
-  
-  /* Conteúdo */
-  ion-content {
-    --background: #f4f5f8;
+
+  .btn-cancel {
+    --background: #3A3A3C;
+    --color: var(--scap-text-primary);
   }
-  
-  .header-text {
-    margin-bottom: 25px;
-    h2 { font-weight: 800; color: #1e293b; margin: 0 0 5px 0; font-size: 1.5rem; }
-    p { color: #64748b; margin: 0; font-size: 0.95rem; }
-  }
-  
-  .form-card {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .custom-input, ion-textarea {
-    --background: #ffffff;
-    --border-radius: 12px;
-    --border-color: #cbd5e1;
-    --border-width: 1px;
-    --highlight-color-focused: var(--ion-color-primary);
-    --padding-start: 15px;
-    --color: #1e293b !important;
-    --placeholder-color: #94a3b8;
-    font-size: 1rem;
-    margin-bottom: 5px;
-    
-    &.has-focus { --border-color: var(--ion-color-primary); }
-  }
-  
-  ion-icon { color: #64748b; margin-right: 8px; }
-  
-  .submit-btn {
-    margin-top: 10px;
-    --box-shadow: 0 10px 25px rgba(0, 86, 179, 0.25);
-    font-weight: 700;
-    --border-radius: 12px;
-    height: 50px;
-    font-size: 1.1rem;
-  }
+}
+
+/* Animações (iguais ao dashboard) */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

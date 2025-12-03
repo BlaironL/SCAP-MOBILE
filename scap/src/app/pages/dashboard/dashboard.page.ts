@@ -7,6 +7,11 @@ import {
   calendarOutline, documentTextOutline, peopleOutline, 
   timeOutline, arrowForwardOutline, notificationsOutline 
 } from 'ionicons/icons';
+import { ModalController } from '@ionic/angular/standalone';
+
+// Ajuste os caminhos conforme sua estrutura, se necessário use '../../'
+import { NotificacoesModalComponent } from '../../components/notificacoes-modal/notificacoes-modal.component';
+import { ScapDataService } from '../../services/scap-data.service';
 
 // IMPORTAÇÕES EXPLÍCITAS (ESSENCIAL PARA ANDROID)
 import { 
@@ -60,10 +65,22 @@ export class DashboardPage implements OnInit {
     }
   ];
 
-  constructor() {
+  // CORREÇÃO: Injeção de dependência feita nos argumentos do construtor
+  constructor(
+    private modalCtrl: ModalController,
+    public scapService: ScapDataService
+  ) {
     addIcons({ calendarOutline, documentTextOutline, peopleOutline, timeOutline, arrowForwardOutline, notificationsOutline });
   }
 
   ngOnInit() {
+  }
+
+  // Lógica para abrir o modal de notificações
+  async abrirNotificacoes() {
+    const modal = await this.modalCtrl.create({
+      component: NotificacoesModalComponent
+    });
+    await modal.present();
   }
 }

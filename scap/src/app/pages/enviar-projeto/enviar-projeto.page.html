@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Submeter Projeto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding content-bg">
+
+  <!-- SEÇÃO 1: BUSCA DE EVENTO -->
+  <div class="search-container" *ngIf="!eventoEncontrado">
+    <div class="header-text">
+      <h2>Buscar Evento</h2>
+      <p>Insira o <strong>Código (Token)</strong> ou nome do evento para iniciar a submissão.</p>
+    </div>
+
+    <div class="search-box">
+      <ion-input 
+        class="custom-input" 
+        label="Código ou Nome" 
+        label-placement="floating" 
+        fill="outline" 
+        placeholder="Ex: X7B29A"
+        [(ngModel)]="termoBusca"
+        (keyup.enter)="buscarEvento()">
+
+        <ion-icon slot="start" name="search-outline"></ion-icon>
+      </ion-input>
+      
+      <ion-button expand="block" shape="round" class="search-btn" (click)="buscarEvento()">
+        Buscar
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 2: FORMULÁRIO -->
+  <div class="submission-container" *ngIf="eventoEncontrado">
+
+    <!-- Card do Evento -->
+    <div class="event-found-card">
+      <div class="card-header-row">
+        <ion-badge [color]="eventoEncontrado.privado ? 'warning' : 'success'">
+          {{ eventoEncontrado.privado ? 'Privado' : 'Aberto' }}
+        </ion-badge>
+
+        <ion-button fill="clear" color="medium" size="small" (click)="limparBusca()">
+          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+        </ion-button>
+      </div>
+      
+      <div class="event-info">
+        <h3>{{ eventoEncontrado.titulo }}</h3>
+        <p class="location">
+          <ion-icon name="business-outline"></ion-icon>
+          {{ eventoEncontrado.local }}
+        </p>
+        <p class="desc">{{ eventoEncontrado.descricao }}</p>
+      </div>
+    </div>
+
+    <!-- Formulário -->
+    <div class="project-form form-card">
+      <h3>Dados do Projeto</h3>
+      
+      <ion-input class="custom-input" label="Título do Trabalho" label-placement="floating" fill="outline" [(ngModel)]="novoProjeto.titulo">
+        <ion-icon slot="start" name="text-outline"></ion-icon>
+      </ion-input>
+
+      <ion-textarea
+        class="custom-input"
+        label="Resumo / Abstract"
+        label-placement="floating"
+        fill="outline"
+        rows="6"
+        placeholder="Cole aqui o resumo do seu projeto..."
+        [(ngModel)]="novoProjeto.resumo">
+      </ion-textarea>
+
+      <div class="upload-placeholder">
+        <ion-icon name="cloud-upload-outline"></ion-icon>
+        <p>Anexar PDF do Projeto (Simulado)</p>
+      </div>
+      
+      <ion-button expand="block" shape="round" class="submit-btn" (click)="enviar()">
+        Confirmar Submissão
+      </ion-button>
+    </div>
+
+  </div>
+
+</ion-content>

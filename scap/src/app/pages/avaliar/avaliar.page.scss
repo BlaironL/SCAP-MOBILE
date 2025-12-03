@@ -1,133 +1,266 @@
-/* CORREÇÃO DO HEADER PARA ANDROID */
+/* ============================================
+   TEMA GLOBAL DARK
+============================================ */
+ion-content {
+  --background: #0d0d0d; // fundo dark elegante
+  color: #e5e5e5;
+  padding-bottom: 30px;
+}
+
+/* Fade animation for smoother transitions */
+.fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Card hover shine effect */
+@keyframes softHover {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2px); }
+}
+
+/* ============================================
+   HEADER – Tema Dark
+============================================ */
 ion-header {
-    background-color: var(--ion-color-primary);
-    padding-top: var(--ion-safe-area-top);
+  background: #0d0d0d;
+  padding-top: var(--ion-safe-area-top);
+  border-bottom: 1px solid #1a1a1a;
+  backdrop-filter: blur(8px);
+}
+
+ion-toolbar {
+  --background: transparent;
+  --color: #ffffff;
+  --min-height: 62px;
+}
+
+ion-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   TEXTO DO TOPO
+============================================ */
+.header-text {
+  margin-bottom: 20px;
+
+  h2 {
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 5px 0;
+    font-size: 1.55rem;
   }
-  
-  ion-toolbar {
-    --background: transparent;
-    --color: white;
-    --min-height: 60px;
+
+  p {
+    color: #b0b0b0;
+    margin-top: 4px;
+    font-size: 0.95rem;
   }
-  
-  ion-title {
+}
+
+/* ============================================
+   LISTA DE PROJETOS
+============================================ */
+.evaluation-list {
+  background: transparent;
+  padding: 0;
+}
+
+.project-item {
+  --background: #161616;
+  --border-radius: 16px;
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --border-width: 0;
+
+  margin-bottom: 18px;
+  transition: 0.25s ease;
+  border: 1px solid #1f1f1f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  animation: fadeIn 0.35s ease both;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  }
+
+  h3 {
     font-weight: 700;
+    color: #ffffff;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+  }
+
+  .category-badge {
+    display: inline-block;
+    background: #7a0cff22;
+    color: #bb86ff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border: 1px solid #7a0cff55;
+  }
+
+  .author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: #cfcfcf;
+  }
+
+  ion-button {
+    --border-radius: 10px;
+    font-weight: 600;
+    height: 40px;
+    --background: #7a0cff;
+    --background-hover: #5e09c7;
+    --color: #fff;
+  }
+}
+
+/* ============================================
+   MODAL – DARK
+============================================ */
+.modal-project-info {
+  background: #111;
+  padding: 25px 20px;
+  border-radius: 16px;
+  margin-bottom: 25px;
+  text-align: center;
+  border: 1px solid #1f1f1f;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  animation: fadeIn 0.35s;
+
+  h2 {
+    margin: 0 0 15px 0;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  .media-badge {
+    background: #7a0cff;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-weight: bold;
     font-size: 1.2rem;
+    display: inline-block;
+    box-shadow: 0 4px 14px rgba(122, 12, 255, 0.3);
   }
-  
-  /* Conteúdo */
-  ion-content {
-    --background: #f4f5f8;
+}
+
+/* ============================================
+   FORMULÁRIO DE AVALIAÇÃO – DARK
+============================================ */
+.criteria-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.criteria-item {
+  background: #161616;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #1f1f1f;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: 0.25s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
   }
-  
-  .header-text {
-    margin-bottom: 20px;
-    h2 { font-weight: 800; color: #1e293b; margin: 0 0 5px 0; font-size: 1.5rem; }
-    p { color: #64748b; margin-top: 5px; font-size: 0.95rem; }
-  }
-  
-  .evaluation-list {
-    background: transparent;
-    padding: 0;
-  }
-  
-  .project-item {
-    --background: #ffffff;
-    --border-radius: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    --padding-start: 16px;
-    --inner-padding-end: 16px;
-    --padding-top: 10px;
-    --padding-bottom: 10px;
-    --border-width: 0; 
-  
-    h3 { font-weight: 700; color: #1e293b; margin-bottom: 8px; font-size: 1.1rem; white-space: normal; }
-    
-    .category-badge {
-      display: inline-block;
-      background: #e0f2fe;
-      color: #0284c7;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-  
-    .author { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; color: #64748b; margin: 0; font-weight: 500; }
-    
-    ion-button { --border-radius: 8px; font-weight: 600; --box-shadow: none; height: 40px; }
-  }
-  
-  /* Modal Design */
-  .modal-project-info {
-    background: #f8fafc;
-    padding: 25px 20px;
-    border-radius: 16px;
-    margin-bottom: 25px;
-    text-align: center;
-    border: 1px solid #e2e8f0;
-  
-    h2 { margin: 0 0 15px 0; font-size: 1.3rem; font-weight: 800; color: #1e293b; }
-    
-    .media-badge {
-      background: var(--ion-color-primary);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      display: inline-block;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-  }
-  
-  .criteria-form { display: flex; flex-direction: column; gap: 15px; padding-bottom: 40px; }
-  
-  .criteria-item {
-    background: #ffffff;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-  
-    ion-label { font-weight: 700; color: #334155; display: block; margin-bottom: 5px; font-size: 0.95rem; display: flex; justify-content: space-between; }
-    
-    .nota-valor { color: var(--ion-color-primary); font-weight: 800; }
-  
-    ion-range { padding-top: 10px; padding-bottom: 0; --knob-size: 20px; --bar-height: 4px; --knob-box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
-  }
-  
-  .comment-box {
-    --padding-start: 0; --inner-padding-end: 0; --background: transparent; margin-top: 10px;
-    
-    ion-textarea {
-      --background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      --padding-start: 15px;
-      --padding-top: 15px;
-      font-size: 0.95rem;
-      --color: #1e293b; 
-      --placeholder-color: #94a3b8;
-    }
-  }
-  
-  .empty-state {
-    text-align: center; margin-top: 80px; color: #94a3b8;
-    ion-icon { font-size: 5rem; color: var(--ion-color-success); opacity: 0.8; margin-bottom: 10px; }
-    h3 { font-weight: 800; font-size: 1.4rem; color: #334155; margin-bottom: 5px; }
-    p { font-size: 1rem; }
-  }
-  
-  .submit-btn {
-    margin-top: 20px;
-    --box-shadow: 0 10px 25px rgba(0, 86, 179, 0.25);
+
+  ion-label {
     font-weight: 700;
-    --border-radius: 12px;
-    height: 50px;
-    font-size: 1.1rem;
+    color: #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
   }
+
+  .nota-valor {
+    color: #bb86ff;
+    font-weight: 800;
+  }
+
+  ion-range {
+    padding-top: 10px;
+    --knob-size: 20px;
+    --bar-height: 5px;
+    --knob-background: #7a0cff;
+    --bar-background-active: #7a0cff;
+    --knob-box-shadow: 0 2px 8px rgba(122, 12, 255, 0.5);
+  }
+}
+
+/* ============================================
+   TEXTAREA – DARK
+============================================ */
+.comment-box {
+  margin-top: 10px;
+
+  ion-textarea {
+    --background: #121212;
+    border: 1px solid #1f1f1f;
+    border-radius: 12px;
+    --padding-start: 15px;
+    --padding-top: 15px;
+    font-size: 0.95rem;
+    --color: #ffffff;
+    --placeholder-color: #777;
+  }
+}
+
+/* ============================================
+   EMPTY STATE – DARK
+============================================ */
+.empty-state {
+  text-align: center;
+  margin-top: 80px;
+  color: #777;
+
+  ion-icon {
+    font-size: 5rem;
+    color: #7a0cff;
+    opacity: 0.6;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #e5e5e5;
+    margin-bottom: 5px;
+  }
+}
+
+/* ============================================
+   BOTÃO SUBMIT – DARK
+============================================ */
+.submit-btn {
+  margin-top: 20px;
+  --background: #7a0cff;
+  --background-hover: #5e09c7;
+  --box-shadow: 0 10px 25px rgba(122, 12, 255, 0.35);
+  font-weight: 700;
+  --border-radius: 14px;
+  height: 52px;
+  font-size: 1.1rem;
+}

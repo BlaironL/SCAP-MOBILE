@@ -1,158 +1,251 @@
-/* Fundo Geral (Cinza Suave) */
+/* Fundo Geral - Usa o Preto Puro definido no variables.scss */
 ion-content {
-    --background: #f4f5f8;
-  }
+  --background: var(--scap-bg);
+}
+
+/* Header Ajustado para Android (Safe Area) */
+ion-header {
+  background-color: var(--scap-bg); /* Fundo preto para a barra de status */
+  padding-top: var(--ion-safe-area-top); /* Empurra o conteúdo para baixo da câmera/relógio */
+  border-bottom: 1px solid var(--scap-border-color); /* Linha sutil para separar */
+}
+
+/* Toolbar Transparente */
+.dashboard-toolbar {
+  --background: transparent;
+  --color: var(--scap-text-primary);
+  --border-width: 0;
+  --min-height: 60px;
+}
+
+/* Título e Botões do Header */
+ion-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+ion-menu-button, ion-button {
+  --color: var(--ion-color-primary); /* Azul vibrante nos ícones */
+}
+
+/* Cabeçalho de Boas-vindas */
+.welcome-header {
+  padding: 20px 20px 30px 20px;
   
-  /* Header Curvo */
-  .dashboard-toolbar {
-    --background: var(--ion-color-primary);
-    --color: white;
-  }
-  
-  .welcome-header {
-    background: var(--ion-color-primary);
-    padding: 10px 20px 60px 20px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    margin-bottom: -40px;
-    
-    .welcome-content {
-      color: white;
-      h2 { font-weight: 800; font-size: 1.8rem; margin: 0; }
-      p { margin: 5px 0 0 0; opacity: 0.9; font-size: 0.95rem; }
+  .welcome-content {
+    h2 { 
+      font-weight: 900; 
+      font-size: 2rem; 
+      margin: 0; 
+      /* Gradiente no Texto (Efeito Premium) */
+      background: linear-gradient(90deg, #FFFFFF 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p { 
+      margin: 8px 0 0 0; 
+      color: var(--scap-text-secondary); 
+      font-size: 1rem; 
+      line-height: 1.4;
     }
   }
+}
+
+/* Container dos Cards de Estatística */
+.stats-container {
+  padding: 0 10px;
+  animation: slideUp 0.6s ease-out;
+}
+
+/* Card de Estatística - Estilo Dark */
+.stat-card {
+  background: var(--scap-card-bg); /* Cinza Escuro */
+  border-radius: var(--scap-card-radius);
+  padding: 20px;
+  border: 1px solid var(--scap-border-color); /* Borda sutil */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s;
+
+  &:active { transform: scale(0.98); }
+}
+
+/* Círculo do Ícone */
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
   
-  /* Container */
-  .stats-container {
-    padding: 0 10px;
+  /* Cores vibrantes com fundo translúcido (Glow effect) */
+  &.blue { 
+    background: rgba(10, 132, 255, 0.15); 
+    color: var(--ion-color-primary); 
+    box-shadow: 0 0 15px rgba(10, 132, 255, 0.1);
   }
-  
-  /* CARDS DE ESTATÍSTICA (Estilo "Avaliar") */
-  .stat-card {
-    background: #ffffff; /* Fundo Branco Explícito */
-    border-radius: 16px; /* Borda Arredondada */
-    padding: 16px;
-    
-    /* A SOMBRA QUE FUNCIONA NO ANDROID */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    height: 100%;
-    transition: transform 0.2s;
-  
-    &:active { transform: scale(0.98); }
+  &.green { 
+    background: rgba(16, 185, 129, 0.15); 
+    color: var(--ion-color-success);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
   }
-  
-  .icon-circle {
-    width: 45px;
-    height: 45px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    
-    &.blue { background: #e0f2fe; color: var(--ion-color-primary); }
-    &.green { background: #dcfce7; color: var(--ion-color-success); }
-    &.orange { background: #fef3c7; color: #b48900; }
+  &.orange { 
+    background: rgba(245, 158, 11, 0.15); 
+    color: var(--ion-color-warning);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
   }
-  
-  .stat-info h3 { 
-    font-size: 1.8rem; 
+}
+
+.stat-info {
+  h3 { 
+    font-size: 2.2rem; 
     font-weight: 800; 
     margin: 0; 
-    color: #1e293b; /* Texto Escuro Profissional */
+    color: var(--scap-text-primary); 
   }
-  
-  .stat-info p { 
+  p { 
     margin: 0; 
-    font-size: 0.8rem; 
-    color: #64748b; /* Texto Cinza Suave */
+    font-size: 0.9rem; 
+    color: var(--scap-text-secondary); 
     font-weight: 600; 
   }
+}
+
+/* Card Longo (Avaliações) */
+.long-card {
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  /* Gradiente sutil no card longo para destaque */
+  background: linear-gradient(135deg, var(--scap-card-bg) 0%, #252528 100%);
   
-  /* Card Longo */
-  .long-card {
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-    
-    .stat-info-row {
-      flex: 1;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      
-      .text h3 { font-size: 1.2rem; }
-      .arrow-icon { color: #94a3b8; }
-    }
-  }
-  
-  /* Lista de Eventos */
-  .section-title {
-    padding: 25px 20px 10px 20px;
+  .stat-info-row {
+    flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
     
-    h3 { font-size: 1.2rem; font-weight: 800; color: #1e293b; margin: 0; }
+    .text h3 { font-size: 1.4rem; color: var(--scap-text-primary); }
+    .text p { color: var(--scap-text-secondary); }
+    .arrow-icon { color: var(--ion-color-primary); font-size: 1.4rem; }
+  }
+}
+
+/* Título da Seção de Eventos */
+.section-title {
+  padding: 30px 20px 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  h3 { 
+    font-size: 1.3rem; 
+    font-weight: 700; 
+    color: var(--scap-text-primary); 
+    margin: 0; 
   }
   
-  .event-list {
-    padding: 0 16px 20px 16px;
+  ion-button { 
+    --color: var(--ion-color-primary); 
+    font-weight: 600; 
+    letter-spacing: 0.5px;
   }
+}
+
+/* Lista de Eventos */
+.event-list {
+  padding: 0 16px 40px 16px;
+  animation: slideUp 0.8s ease-out;
+}
+
+/* Card de Evento */
+.event-card {
+  background: var(--scap-card-bg);
+  border-radius: 16px;
+  margin: 0 0 16px 0;
+  padding: 16px;
+  border: 1px solid var(--scap-border-color);
+  box-shadow: none; /* Flat design no dark mode */
+}
+
+.event-row { display: flex; align-items: center; gap: 15px; }
+
+/* Caixa da Data */
+.date-box {
+  background: #2C2C2E; /* Um tom mais claro que o card */
+  min-width: 65px;
+  height: 65px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--scap-border-color);
   
-  /* CARD DE EVENTO (Estilo "Avaliar") */
-  .event-card {
-    background: #ffffff;
-    border-radius: 16px;
+  .day { 
+    font-size: 1.5rem; 
+    font-weight: 800; 
+    color: var(--scap-text-primary); 
+    line-height: 1; 
+  }
+  .month { 
+    font-size: 0.75rem; 
+    font-weight: 700; 
+    color: var(--ion-color-primary); 
+    text-transform: uppercase; 
+    margin-top: 2px;
+  }
+}
+
+/* Detalhes do Evento */
+.event-details {
+  flex: 1;
+  h4 { 
+    margin: 0 0 6px 0; 
+    font-size: 1.1rem; 
+    font-weight: 700; 
+    color: var(--scap-text-primary); 
+  }
+  .location { 
+    margin: 0; 
+    font-size: 0.9rem; 
+    color: var(--scap-text-secondary); 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
     
-    /* Sombra Consistente */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    
-    margin: 0 0 12px 0;
-    padding: 16px; /* Padding interno maior */
+    ion-icon { color: var(--ion-color-secondary); }
   }
+}
+
+/* Indicador de Status */
+.status-indicator {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   
-  .event-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
+  /* Padrão para "Em Andamento" */
+  background: rgba(245, 158, 11, 0.15); 
+  color: var(--ion-color-warning);
   
-  .date-box {
-    background: #f1f5f9;
-    min-width: 55px;
-    height: 55px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-    .day { font-size: 1.3rem; font-weight: 800; color: #1e293b; line-height: 1; }
-    .month { font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+  &.active {
+    background: rgba(16, 185, 129, 0.15); 
+    color: var(--ion-color-success);
   }
-  
-  .event-details {
-    flex: 1;
-    h4 { margin: 0 0 4px 0; font-size: 1rem; font-weight: 700; color: #1e293b; }
-    .location { margin: 0; font-size: 0.85rem; color: #64748b; display: flex; align-items: center; gap: 4px; }
-  }
-  
-  .status-indicator {
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: #f1f5f9;
-    color: #64748b;
-    
-    &.active {
-      background: #dcfce7;
-      color: var(--ion-color-success);
-    }
-  }
+}
+
+/* Animação de Entrada */
+@keyframes slideUp { 
+  from { opacity: 0; transform: translateY(20px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
