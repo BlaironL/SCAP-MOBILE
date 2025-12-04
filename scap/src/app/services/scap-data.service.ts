@@ -6,7 +6,7 @@ import { Capacitor } from '@capacitor/core';
 import { AuthService } from './auth.service';
 
 const isAndroid = Capacitor.getPlatform() === 'android';
-const API_URL = isAndroid ? 'http://10.0.2.2:8000/api' : 'http://localhost:8000/api';
+const API_URL = 'https://gracelynn-hydrated-sylvester.ngrok-free.dev/api';
 
 export interface Evento {
   id: string;

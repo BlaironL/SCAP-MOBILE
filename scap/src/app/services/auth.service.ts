@@ -7,7 +7,7 @@ import { Preferences } from '@capacitor/preferences';
 // Define a URL base dependendo de onde o app está rodando
 const isAndroid = Capacitor.getPlatform() === 'android';
 // Emulador Android usa 10.0.2.2, Navegador usa localhost
-const API_URL = isAndroid ? 'http://10.0.2.2:8000/api' : 'http://localhost:8000/api';
+const API_URL = 'https://gracelynn-hydrated-sylvester.ngrok-free.dev/api';
 
 @Injectable({
   providedIn: 'root'
