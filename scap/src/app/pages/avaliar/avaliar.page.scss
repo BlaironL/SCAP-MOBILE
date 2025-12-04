@@ -1,198 +1,195 @@
 /* ============================================
-   TEMA GLOBAL DARK
+   TEMA GLOBAL – MOBILE DARK PREMIUM
 ============================================ */
 ion-content {
-  --background: #0d0d0d; // fundo dark elegante
+  --background: #0d0d0d;
   color: #e5e5e5;
-  padding-bottom: 30px;
+  padding: 18px;
 }
 
-/* Fade animation for smoother transitions */
+/* Fade animation */
 .fade-in {
-  animation: fadeIn 0.4s ease forwards;
+  animation: fadeIn 0.35s ease forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Card hover shine effect */
+/* Hover (mobile → usado em touchstart) */
 @keyframes softHover {
   from { transform: translateY(0); }
   to { transform: translateY(-2px); }
 }
 
 /* ============================================
-   HEADER – Tema Dark
+   HEADER – MOBILE
 ============================================ */
 ion-header {
   background: #0d0d0d;
   padding-top: var(--ion-safe-area-top);
   border-bottom: 1px solid #1a1a1a;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
 }
 
 ion-toolbar {
   --background: transparent;
-  --color: #ffffff;
-  --min-height: 62px;
+  --color: #fff;
+  --min-height: 58px;
 }
 
 ion-title {
+  font-size: 1.18rem;
   font-weight: 700;
-  font-size: 1.2rem;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 
 /* ============================================
    TEXTO DO TOPO
 ============================================ */
 .header-text {
-  margin-bottom: 20px;
+  margin: 10px 0 22px 0;
 
   h2 {
+    color: #fff;
+    font-size: 1.45rem;
     font-weight: 800;
-    color: #ffffff;
-    margin: 0 0 5px 0;
-    font-size: 1.55rem;
   }
 
   p {
-    color: #b0b0b0;
+    color: #b2b2b2;
+    font-size: 0.92rem;
     margin-top: 4px;
-    font-size: 0.95rem;
   }
 }
 
 /* ============================================
-   LISTA DE PROJETOS
+   LISTA DE PROJETOS – MOBILE
 ============================================ */
 .evaluation-list {
-  background: transparent;
   padding: 0;
+  margin: 0;
+  background: transparent;
 }
 
 .project-item {
   --background: #161616;
-  --border-radius: 16px;
-  --padding-start: 16px;
-  --inner-padding-end: 16px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-  --border-width: 0;
+  --border-radius: 14px;
+  --padding-start: 14px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
 
-  margin-bottom: 18px;
-  transition: 0.25s ease;
+  margin-bottom: 16px;
   border: 1px solid #1f1f1f;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   animation: fadeIn 0.35s ease both;
 
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  &:active {
+    transform: scale(0.98);
   }
 
   h3 {
+    color: #fff;
+    font-size: 1.08rem;
     font-weight: 700;
-    color: #ffffff;
-    font-size: 1.15rem;
-    margin-bottom: 10px;
   }
 
   .category-badge {
     display: inline-block;
     background: #7a0cff22;
     color: #bb86ff;
-    font-size: 0.75rem;
-    font-weight: 700;
     padding: 4px 12px;
+    font-weight: 700;
+    font-size: 0.7rem;
+    margin-bottom: 6px;
+
     border-radius: 8px;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
     border: 1px solid #7a0cff55;
+    text-transform: uppercase;
   }
 
   .author {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.9rem;
+    font-size: 0.86rem;
     color: #cfcfcf;
   }
 
   ion-button {
-    --border-radius: 10px;
-    font-weight: 600;
-    height: 40px;
     --background: #7a0cff;
     --background-hover: #5e09c7;
-    --color: #fff;
+    --color: white;
+    --border-radius: 10px;
+    height: 38px;
+    font-weight: 600;
   }
 }
 
 /* ============================================
-   MODAL – DARK
+   MODAL – DARK PREMIUM
 ============================================ */
 .modal-project-info {
-  background: #111;
-  padding: 25px 20px;
+  background: #121212;
   border-radius: 16px;
-  margin-bottom: 25px;
+  padding: 22px 18px;
   text-align: center;
   border: 1px solid #1f1f1f;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   animation: fadeIn 0.35s;
 
   h2 {
-    margin: 0 0 15px 0;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 800;
-    color: #ffffff;
+    color: #fff;
+    margin-bottom: 12px;
   }
 
   .media-badge {
     background: #7a0cff;
-    color: white;
+    color: #fff;
     padding: 10px 22px;
+    font-size: 1.1rem;
+    font-weight: 700;
     border-radius: 30px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    display: inline-block;
-    box-shadow: 0 4px 14px rgba(122, 12, 255, 0.3);
+
+    box-shadow: 0 4px 14px rgba(122, 12, 255, 0.35);
   }
 }
 
 /* ============================================
-   FORMULÁRIO DE AVALIAÇÃO – DARK
+   FORMULÁRIO – MOBILE DARK
 ============================================ */
 .criteria-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 14px;
 }
 
 .criteria-item {
   background: #161616;
-  padding: 16px;
   border-radius: 14px;
+  padding: 14px;
   border: 1px solid #1f1f1f;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
   transition: 0.25s ease;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  &:active {
+    transform: scale(0.99);
   }
 
   ion-label {
+    color: #eee;
     font-weight: 700;
-    color: #e8e8e8;
+    font-size: 0.92rem;
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
-    font-size: 0.95rem;
   }
 
   .nota-valor {
@@ -201,66 +198,66 @@ ion-title {
   }
 
   ion-range {
-    padding-top: 10px;
     --knob-size: 20px;
     --bar-height: 5px;
     --knob-background: #7a0cff;
     --bar-background-active: #7a0cff;
-    --knob-box-shadow: 0 2px 8px rgba(122, 12, 255, 0.5);
+    --knob-box-shadow: 0 2px 10px rgba(122, 12, 255, 0.5);
   }
 }
 
 /* ============================================
-   TEXTAREA – DARK
+   TEXTAREA – MOBILE
 ============================================ */
 .comment-box {
-  margin-top: 10px;
-
   ion-textarea {
     --background: #121212;
-    border: 1px solid #1f1f1f;
     border-radius: 12px;
+    border: 1px solid #1f1f1f;
+
     --padding-start: 15px;
     --padding-top: 15px;
     font-size: 0.95rem;
-    --color: #ffffff;
+
+    --color: #fff;
     --placeholder-color: #777;
   }
 }
 
 /* ============================================
-   EMPTY STATE – DARK
+   EMPTY STATE
 ============================================ */
 .empty-state {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 70px;
   color: #777;
 
   ion-icon {
-    font-size: 5rem;
+    font-size: 4.6rem;
     color: #7a0cff;
-    opacity: 0.6;
-    margin-bottom: 10px;
+    opacity: 0.55;
+    margin-bottom: 8px;
   }
 
   h3 {
-    font-weight: 800;
-    font-size: 1.4rem;
     color: #e5e5e5;
-    margin-bottom: 5px;
+    font-weight: 800;
+    font-size: 1.3rem;
   }
 }
 
 /* ============================================
-   BOTÃO SUBMIT – DARK
+   BOTÃO SUBMIT – MOBILE
 ============================================ */
 .submit-btn {
-  margin-top: 20px;
   --background: #7a0cff;
   --background-hover: #5e09c7;
-  --box-shadow: 0 10px 25px rgba(122, 12, 255, 0.35);
-  font-weight: 700;
   --border-radius: 14px;
-  height: 52px;
-  font-size: 1.1rem;
+
+  --box-shadow: 0 10px 25px rgba(122, 12, 255, 0.35);
+  height: 50px;
+
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-top: 18px;
 }

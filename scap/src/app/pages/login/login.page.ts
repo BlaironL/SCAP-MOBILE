@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { NavController, MenuController } from '@ionic/angular'; // Import MenuController
-import { addIcons } from 'ionicons';
-import { mailOutline, lockClosedOutline, logInOutline, personAddOutline } from 'ionicons/icons';
-import { 
-  IonContent, IonCard, IonInput, IonButton, IonIcon, IonText, IonSpinner 
-} from '@ionic/angular/standalone';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IonicModule, NavController, ToastController, LoadingController } from '@ionic/angular';
+import { AuthService } from '../../services/auth.service';
+import { RouterModule } from '@angular/router'; // <--- 1. IMPORT NECESSÁRIO
+import { addIcons } from 'ionicons'; 
+import { schoolOutline, personOutline, lockClosedOutline, logInOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-login',
@@ -15,42 +13,64 @@ import {
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, FormsModule, RouterLink,
-    IonContent, IonCard, IonInput, IonButton, IonIcon, IonText, IonSpinner
+    IonicModule, 
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule,
+    RouterModule // <--- 2. ADICIONE AQUI NA LISTA DE IMPORTS
   ]
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
+  private authService = inject(AuthService);
+  private navCtrl = inject(NavController);
+  private toastCtrl = inject(ToastController);
+  private loadingCtrl = inject(LoadingController);
+  private fb = inject(FormBuilder);
 
-  credentials = { email: '', password: '' };
-  isLoading = false;
+  form: FormGroup;
 
-  constructor(
-    private navCtrl: NavController,
-    private menuCtrl: MenuController // Injetar o controlador do menu
-  ) {
-    addIcons({ mailOutline, lockClosedOutline, logInOutline, personAddOutline });
+  constructor() {
+    addIcons({ schoolOutline, personOutline, lockClosedOutline, logInOutline });
+
+    this.form = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
-  ngOnInit() {}
+  async fazerLogin() {
+    if (this.form.invalid) return;
 
-  // 1. Quando entrar na página, DESATIVA o menu lateral
-  ionViewWillEnter() {
-    this.menuCtrl.enable(false);
-  }
+    const loading = await this.loadingCtrl.create({ 
+      message: 'Autenticando...',
+      spinner: 'crescent' 
+    });
+    await loading.present();
 
-  async login() {
-    this.isLoading = true;
+    const { username, password } = this.form.value;
 
-    // Simula delay de rede
-    setTimeout(async () => {
-      this.isLoading = false;
-      console.log('Login mockado com:', this.credentials);
-      
-      // 2. Antes de sair, ATIVA o menu lateral novamente para o Dashboard
-      await this.menuCtrl.enable(true);
-
-      // Navega para o Dashboard (Root para não ter botão de voltar)
-      this.navCtrl.navigateRoot('/dashboard');
-    }, 1500);
+    this.authService.login(username, password).subscribe({
+      next: () => {
+        loading.dismiss();
+        this.navCtrl.navigateRoot('/dashboard');
+      },
+      error: async (err) => {
+        loading.dismiss();
+        console.error(err);
+        
+        const msg = err.status === 401 
+          ? 'Usuário ou senha incorretos.' 
+          : 'Erro ao conectar com o servidor.';
+          
+        const toast = await this.toastCtrl.create({
+          message: msg,
+          duration: 3000,
+          color: 'danger',
+          position: 'top',
+          icon: 'alert-circle-outline'
+        });
+        toast.present();
+      }
+    });
   }
 }

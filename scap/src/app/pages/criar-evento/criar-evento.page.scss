@@ -1,152 +1,123 @@
+/* ================================
+   MOBILE DARK PREMIUM – EVENT FORM
+   ================================ */
+
 /* Fundo Geral */
 ion-content {
   --background: var(--scap-bg);
-  animation: fadeIn 0.4s ease-out;
+  animation: fadeIn 0.45s ease-out;
+  padding-bottom: 40px;
 }
 
-/* Cabeçalho da Página */
-.page-header {
-  padding: 25px 20px 30px 20px;
-  animation: slideUp 0.6s ease-out;
-
-  h1 {
-    font-weight: 900;
-    font-size: 2rem;
-    margin: 0;
-
-    /* Gradiente Premium (igual ao dashboard) */
-    background: linear-gradient(90deg, #FFFFFF 0%, #94a3b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+/* HEADER */
+ion-header {
+  ion-toolbar {
+    --background: var(--scap-bg-alt);
+    --border-color: transparent;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.35);
   }
 
-  p {
-    margin: 10px 0 0 0;
-    color: var(--scap-text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.4;
+  ion-title {
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: #fff;
   }
 }
 
-/* Card Dark Premium */
-.form-card {
-  background: var(--scap-card-bg);
-  padding: 26px;
-  border-radius: var(--scap-card-radius);
-  border: 1px solid var(--scap-border-color);
-  margin: 0 16px 40px 16px;
-  animation: slideUp 0.7s ease-out;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
+/* ====== CARD VISUAL DOS INPUTS ====== */
+ion-list {
+  background: transparent;
+  padding: 4px 14px 20px 14px;
 }
 
-/* Layout de Inputs */
-.form-grid {
-  display: grid;
-  gap: 22px;
-
-  /* Ajuste automático do grid */
-  grid-template-columns: 1fr 1fr;
-
-  .full-width { grid-column: span 2; }
-}
-
-/* Labels */
-.input-group {
-  label {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--scap-text-secondary);
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-}
-
-/* Ion-item escuro, sem borda e moderno */
+/* ITEM BASE */
 ion-item {
-  --background: #2C2C2E;
-  --border-radius: 12px;
-  --padding-start: 10px;
-  --padding-end: 10px;
-  --inner-padding-end: 8px;
-  --highlight-color-focused: var(--ion-color-primary);
-  --min-height: 52px;
+  --background: #1d1d20;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --border-radius: 16px;
+  --inner-padding-end: 6px;
+  --min-height: 58px;
 
-  border: 1px solid #3A3A3C;
-  border-radius: 12px;
-  transition: 0.15s ease;
+  border: 1px solid #2a2a2d;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  transition: 0.23s ease;
 
+  /* Glow suave ao focar */
   &:focus-within {
     border-color: var(--ion-color-primary);
-    background: #3a3a3c;
+    box-shadow: 0 0 12px rgba(0, 255, 196, 0.18);
+    background: #262629;
   }
+}
+
+/* Labels & ícones */
+ion-label {
+  color: var(--scap-text-secondary);
+  font-weight: 600;
+}
+
+ion-icon {
+  font-size: 1.3rem;
+  color: var(--scap-text-secondary);
 }
 
 /* Inputs */
-ion-input, ion-textarea {
+ion-input,
+ion-textarea {
   --color: #fff;
-  --placeholder-color: #8E8E93;
+  --placeholder-color: #8f8f94;
   font-size: 1rem;
 }
 
-/* Ícones */
-ion-icon {
-  color: var(--scap-text-secondary);
-  font-size: 1.25rem;
+/* Textarea mais bonito */
+ion-textarea {
+  --background: transparent;
+  padding-right: 6px;
 }
 
-/* Caixa de Upload */
-.upload-box {
-  background: #2C2C2E;
-  border-radius: var(--scap-card-radius);
-  border: 2px dashed #3A3A3C;
-  padding: 30px;
-  text-align: center;
-  color: var(--scap-text-secondary);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: 0.2s;
+/* Toggle customizado */
+.toggle-item {
+  padding: 4px 6px;
 
-  ion-icon {
-    font-size: 2.2rem;
-    color: var(--ion-color-primary);
-  }
-
-  &:active { transform: scale(0.97); }
-}
-
-/* Área de Ações */
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  margin-top: 10px;
-
-  ion-button {
-    flex: 1;
-    height: 55px;
+  h2 {
+    color: #fff;
     font-weight: 700;
-    --border-radius: 16px;
-    font-size: 1.05rem;
+    margin: 0;
   }
 
-  .btn-cancel {
-    --background: #3A3A3C;
-    --color: var(--scap-text-primary);
+  p {
+    color: var(--scap-text-secondary);
+    margin: 2px 0 0 0;
+    font-size: 0.85rem;
   }
 }
 
-/* Animações (iguais ao dashboard) */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* Botão principal */
+ion-button {
+  --background: linear-gradient(90deg, var(--ion-color-primary), #00ffd0);
+  --border-radius: 16px;
+  height: 58px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 15px rgba(0,255,200,0.25);
+  transition: 0.2s ease;
+
+  &:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 10px rgba(0,255,200,0.18);
+  }
 }
 
+/* ======== ANIMAÇÕES ======== */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(25px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

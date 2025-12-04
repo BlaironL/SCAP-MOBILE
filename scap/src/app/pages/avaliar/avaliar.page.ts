@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router'; 
 import { FormsModule } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
+import { ScapDataService, Projeto } from '../../services/scap-data.service';
+
+// --- IMPORTS STANDALONE CORRETOS ---
+import { 
+  IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, 
+  IonContent, IonList, IonItem, IonLabel, IonIcon, IonModal,
+  IonRange, IonTextarea, IonBackButton 
+} from '@ionic/angular/standalone';
+
 import { addIcons } from 'ionicons';
 import { 
-  starOutline, star, chevronForwardOutline, closeOutline, saveOutline, 
-  personCircleOutline, checkmarkDoneCircleOutline
+  personCircleOutline, 
+  chevronForwardOutline, 
+  checkmarkDoneCircleOutline 
 } from 'ionicons/icons';
-
-// IMPORTAÇÕES EXPLÍCITAS
-import {
-  IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent,
-  IonList, IonItem, IonLabel, IonIcon, IonButton, IonModal, IonRange,
-  IonTextarea
-} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-avaliar',
@@ -20,51 +25,46 @@ import {
   styleUrls: ['./avaliar.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, FormsModule,
-    IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent,
-    IonList, IonItem, IonLabel, IonIcon, IonButton, IonModal, IonRange,
-    IonTextarea
+    // REMOVI O IonicModule PARA EVITAR O CONFLITO NG0300
+    CommonModule, 
+    FormsModule,
+    // Apenas os componentes individuais:
+    IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, 
+    IonContent, IonList, IonItem, IonLabel, IonIcon, IonModal,
+    IonRange, IonTextarea, IonBackButton
   ]
 })
 export class AvaliarPage implements OnInit {
-  
+  private scapService = inject(ScapDataService);
+  private toastCtrl = inject(ToastController);
+  private router = inject(Router); 
+  private ngZone = inject(NgZone); 
+
+  projetosPendentes: Projeto[] = [];
   isModalOpen = false;
 
-  projetosPendentes = [
-    {
-      id: 201,
-      titulo: 'Sistema de Irrigação Automatizado',
-      autor: 'João Pedro',
-      resumo: 'Protótipo utilizando Arduino e sensores de umidade.',
-      categoria: 'Tecnologia'
-    },
-    {
-      id: 202,
-      titulo: 'Impacto das Redes Sociais na Ansiedade',
-      autor: 'Ana Clara',
-      resumo: 'Estudo de caso com adolescentes de 15 a 18 anos.',
-      categoria: 'Saúde Mental'
-    }
-  ];
-
-  avaliacaoAtual = {
-    projetoId: 0,
+  avaliacaoAtual: any = {
+    id: '',
     titulo: '',
     notas: { originalidade: 0, relevancia: 0, metodologia: 0, apresentacao: 0 },
     comentario: ''
   };
 
   constructor() {
-    addIcons({ starOutline, star, chevronForwardOutline, closeOutline, saveOutline, personCircleOutline, checkmarkDoneCircleOutline });
+    addIcons({ personCircleOutline, chevronForwardOutline, checkmarkDoneCircleOutline });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.scapService.projetos$.subscribe(projetos => {
+      this.projetosPendentes = projetos.filter(p => p.status === 'Em Avaliação');
+    });
+  }
 
-  abrirAvaliacao(projeto: any) {
+  abrirAvaliacao(projeto: Projeto) {
     this.avaliacaoAtual = {
-      projetoId: projeto.id,
+      id: projeto.id,
       titulo: projeto.titulo,
-      notas: { originalidade: 0, relevancia: 0, metodologia: 0, apresentacao: 0 },
+      notas: { originalidade: 5, relevancia: 5, metodologia: 5, apresentacao: 5 },
       comentario: ''
     };
     this.isModalOpen = true;
@@ -74,15 +74,37 @@ export class AvaliarPage implements OnInit {
     this.isModalOpen = false;
   }
 
-  confirmar() {
-    console.log('Avaliação Salva:', this.avaliacaoAtual);
-    this.projetosPendentes = this.projetosPendentes.filter(p => p.id !== this.avaliacaoAtual.projetoId);
-    this.isModalOpen = false;
+  get mediaAtual(): number {
+    const n = this.avaliacaoAtual.notas;
+    if (!n) return 0;
+    return (n.originalidade + n.relevancia + n.metodologia + n.apresentacao) / 4;
   }
 
-  get mediaAtual() {
-    const { originalidade, relevancia, metodologia, apresentacao } = this.avaliacaoAtual.notas;
-    const soma = (Number(originalidade) + Number(relevancia) + Number(metodologia) + Number(apresentacao));
-    return soma / 4;
+  async confirmar() {
+    this.scapService.avaliarProjeto(
+      this.avaliacaoAtual.id,
+      this.avaliacaoAtual.notas,
+      this.avaliacaoAtual.comentario
+    );
+
+    this.isModalOpen = false; 
+
+    // Navegação Forçada para o Dashboard
+    this.ngZone.run(() => {
+      this.router.navigate(['/dashboard'], { replaceUrl: true });
+    });
+
+    this.mostrarToast('Avaliação registrada com sucesso!');
+  }
+
+  async mostrarToast(msg: string) {
+    const toast = await this.toastCtrl.create({
+      message: msg,
+      duration: 2000,
+      color: 'success',
+      icon: 'checkmark-done-circle-outline',
+      position: 'top'
+    });
+    toast.present();
   }
 }

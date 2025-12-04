@@ -1,78 +1,78 @@
-<ion-content>
-  <div class="page-container">
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Meus Projetos</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-    <div class="header-title">
-      <h1>Meus Projetos</h1>
-      <p>Gerencie seus projetos acadêmicos e submissões.</p>
-    </div>
+<ion-content class="ion-padding">
 
-    <!-- LISTA DE PROJETOS -->
-    <div class="projects-grid">
-
-      <div class="project-card">
-        <div class="card-top">
-          <span class="status-badge em-andamento">Em Andamento</span>
-          <ion-button fill="clear" color="medium">
-            <ion-icon name="ellipsis-vertical"></ion-icon>
-          </ion-button>
+  <div class="project-list" *ngIf="(meusProjetos$ | async) as projetos">
+    
+    <ion-card *ngFor="let projeto of projetos" class="project-card">
+      
+      <div class="card-status-bar" [style.background-color]="'var(--ion-color-' + getCorStatus(projeto.status) + ')'"></div>
+      
+      <ion-card-header>
+        <div class="header-top">
+          <ion-badge [color]="getCorStatus(projeto.status)">
+            <ion-icon [name]="getIconeStatus(projeto.status)"></ion-icon>
+            {{ projeto.status }}
+          </ion-badge>
+          <span class="event-name">
+            <ion-icon name="business-outline"></ion-icon> {{ projeto.eventoNome }}
+          </span>
         </div>
+        
+        <ion-card-title>{{ projeto.titulo }}</ion-card-title>
+        <ion-card-subtitle>Autor: {{ projeto.autor }}</ion-card-subtitle>
+      </ion-card-header>
 
-        <div class="card-content">
-          <h3>Sistema SCAP Mobile</h3>
-          <p>Desenvolvimento de aplicativo para gestão de eventos acadêmicos utilizando Ionic e Angular.</p>
-        </div>
+      <ion-card-content>
+        <p class="resumo">{{ projeto.resumo }}</p>
 
-        <div class="card-footer">
-          <div class="meta-info">
-            <div><ion-icon name="calendar-outline"></ion-icon> 12 Dez</div>
-            <div><ion-icon name="people-outline"></ion-icon> 3 Membros</div>
+        <div *ngIf="projeto.status === 'Avaliado'" class="avaliacao-result animate__animated animate__fadeIn">
+          <div class="divider"></div>
+          
+          <div class="score-display">
+            <div class="score-circle">
+              <span class="number">{{ projeto.mediaFinal | number:'1.1-1' }}</span>
+              <span class="label">Média</span>
+            </div>
+            
+            <div class="feedback-text">
+              <h4><ion-icon name="star-outline"></ion-icon> Feedback do Avaliador:</h4>
+              <p>"{{ projeto.comentario || 'Sem comentários adicionais.' }}"</p>
+            </div>
           </div>
-          <div class="progress-section">
-            <span>Progresso <span>75%</span></span>
-            <ion-progress-bar value="0.75" color="primary"></ion-progress-bar>
+          
+          <div class="mini-stats" *ngIf="projeto.notas">
+            <span>Orig: <b>{{ projeto.notas.originalidade }}</b></span> •
+            <span>Rel: <b>{{ projeto.notas.relevancia }}</b></span> •
+            <span>Met: <b>{{ projeto.notas.metodologia }}</b></span>
           </div>
         </div>
+
+        <div *ngIf="projeto.status === 'Recusado'" class="recusado-msg">
+          <p>Este projeto não foi aceito pelo organizador do evento.</p>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <div *ngIf="projetos.length === 0" class="empty-state">
+      <div class="icon-bg">
+        <ion-icon name="document-text-outline"></ion-icon>
       </div>
-
-      <div class="project-card">
-        <div class="card-top">
-          <span class="status-badge pendente">Pendente</span>
-          <ion-button fill="clear" color="medium">
-            <ion-icon name="ellipsis-vertical"></ion-icon>
-          </ion-button>
-        </div>
-
-        <div class="card-content">
-          <h3>Análise de Marcas com IA</h3>
-          <p>Projeto de TCC focado em redes neurais convolucionais para detecção de similaridade.</p>
-        </div>
-
-        <div class="card-footer">
-          <div class="meta-info">
-            <div><ion-icon name="calendar-outline"></ion-icon> 20 Jan</div>
-            <div><ion-icon name="people-outline"></ion-icon> 1 Membro</div>
-          </div>
-          <div class="progress-section">
-            <span>Progresso <span>10%</span></span>
-            <ion-progress-bar value="0.1" color="warning"></ion-progress-bar>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- PESQUISA -->
-    <div class="search-container">
-      <ion-searchbar placeholder="Buscar projetos..." mode="ios"></ion-searchbar>
-    </div>
-
-    <!-- NOVO PROJETO -->
-    <div class="new-project-btn">
-      <ion-button color="primary" mode="ios">
-        <ion-icon slot="start" name="add-outline"></ion-icon>
-        Novo Projeto
+      <h3>Nenhum projeto ainda</h3>
+      <p>Inscreva-se em um evento para submeter seu primeiro trabalho.</p>
+      <ion-button routerLink="/enviar-projeto" expand="block" fill="outline">
+        Submeter Projeto
       </ion-button>
     </div>
 
   </div>
+
 </ion-content>

@@ -1,18 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { 
-  documentTextOutline, timeOutline, checkmarkCircleOutline, 
-  cloudUploadOutline, eyeOutline, downloadOutline, searchOutline, addOutline, ellipsisVertical, calendarOutline, peopleOutline } from 'ionicons/icons';
+  documentTextOutline, 
+  timeOutline, 
+  checkmarkCircleOutline, 
+  closeCircleOutline, 
+  starOutline, 
+  personOutline,
+  businessOutline
+} from 'ionicons/icons';
 
-// IMPORTAÇÕES EXPLÍCITAS CORRIGIDAS
-import {
-  IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonButton, IonIcon,
-  IonContent, IonCard,
-  IonSearchbar,   // <-- ADICIONADO (Correção do erro NG8001)
-  IonProgressBar  // <-- ADICIONADO (Correção do erro NG8001)
+// Imports Standalone
+import { 
+  IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, 
+  IonContent, IonList, IonCard, IonCardHeader, IonCardSubtitle, 
+  IonCardTitle, IonCardContent, IonBadge, IonIcon, IonButton,
+  IonProgressBar 
 } from '@ionic/angular/standalone';
+
+import { ScapDataService, Projeto } from '../../services/scap-data.service'; // Ajuste o caminho ../ se necessário
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-meus-projetos',
@@ -20,56 +30,51 @@ import {
   styleUrls: ['./meus-projetos.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, FormsModule,
-    IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonButton, IonIcon,
-    IonContent, IonCard,
-    IonSearchbar,   // <-- ADICIONADO NA LISTA DE IMPORTS
-    IonProgressBar  // <-- ADICIONADO NA LISTA DE IMPORTS
+    CommonModule, 
+    RouterModule,
+    IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, 
+    IonContent, IonList, IonCard, IonCardHeader, IonCardSubtitle, 
+    IonCardTitle, IonCardContent, IonBadge, IonIcon, IonButton,
+    IonProgressBar
   ]
 })
 export class MeusProjetosPage implements OnInit {
+  private scapService = inject(ScapDataService);
 
-  meusProjetos = [
-    {
-      id: 101,
-      titulo: 'Uso de IA na Agricultura de Precisão',
-      evento: 'Semana de Tecnologia 2025',
-      dataSubmissao: '15/10/2025',
-      status: 'Avaliado',
-      nota: 9.5,
-      feedback: 'Excelente trabalho, metodologia clara.'
-    },
-    {
-      id: 102,
-      titulo: 'Impactos do 5G na Telemedicina',
-      evento: 'Congresso de Medicina',
-      dataSubmissao: '01/11/2025',
-      status: 'Em Avaliação',
-      nota: null,
-      feedback: null
-    },
-    {
-      id: 103,
-      titulo: 'Blockchain para Rastreabilidade',
-      evento: 'Semana de Tecnologia 2025',
-      dataSubmissao: '10/11/2025',
-      status: 'Pendente',
-      nota: null,
-      feedback: null
-    }
-  ];
+  // Fluxo de dados em tempo real
+  meusProjetos$!: Observable<Projeto[]>;
 
   constructor() {
-    addIcons({addOutline,ellipsisVertical,calendarOutline,peopleOutline,searchOutline,documentTextOutline,timeOutline,checkmarkCircleOutline,cloudUploadOutline,eyeOutline,downloadOutline});
+    addIcons({ 
+      documentTextOutline, timeOutline, checkmarkCircleOutline, 
+      closeCircleOutline, starOutline, personOutline, businessOutline 
+    });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    // Conecta ao "Banco de Dados"
+    // Nota: Em um app real com login, filtraríamos aqui: .filter(p => p.autor === 'Meu Usuario')
+    this.meusProjetos$ = this.scapService.projetos$;
+  }
 
-  getStatusColor(status: string) {
+  // Define a cor do Badge baseado no status
+  getCorStatus(status: string): string {
     switch (status) {
-      case 'Avaliado': return 'success';
-      case 'Em Avaliação': return 'warning';
-      default: return 'medium';
+      case 'Avaliado': return 'success';      // Verde
+      case 'Recusado': return 'danger';       // Vermelho
+      case 'Em Avaliação': return 'primary';  // Azul
+      case 'Pendente': return 'warning';      // Amarelo
+      default: return 'medium';               // Cinza
+    }
+  }
+
+  // Define o ícone baseado no status
+  getIconeStatus(status: string): string {
+    switch (status) {
+      case 'Avaliado': return 'checkmark-circle-outline';
+      case 'Recusado': return 'close-circle-outline';
+      case 'Em Avaliação': return 'time-outline';
+      default: return 'document-text-outline';
     }
   }
 }

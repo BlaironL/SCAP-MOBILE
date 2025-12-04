@@ -1,25 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ToastController, NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastController, LoadingController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
-  searchOutline, 
-  cloudUploadOutline, 
-  businessOutline, 
-  closeCircleOutline, 
-  textOutline, 
-  documentTextOutline 
+  searchOutline, cloudUploadOutline, businessOutline, closeCircleOutline, 
+  textOutline, documentTextOutline, locationOutline, sendOutline, arrowBackOutline 
 } from 'ionicons/icons';
-
-// Importações dos componentes Ionic Standalone
 import { 
-  IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, 
-  IonContent, IonInput, IonButton, IonIcon, IonBadge, IonTextarea
+  IonHeader, IonToolbar, IonButtons, IonBackButton, IonMenuButton, IonTitle, 
+  IonContent, IonInput, IonButton, IonIcon, IonBadge, IonTextarea,
+  IonSearchbar, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, 
+  IonCardContent, IonItem, IonLabel
 } from '@ionic/angular/standalone';
-
-// Importação do Serviço (Caminho Relativo)
-import { ScapDataService, Evento } from '../../services/scap-data.service';
+import { ScapDataService, Evento, Projeto } from '../../services/scap-data.service';
 
 @Component({
   selector: 'app-enviar-projeto',
@@ -27,81 +22,111 @@ import { ScapDataService, Evento } from '../../services/scap-data.service';
   styleUrls: ['./enviar-projeto.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, FormsModule,
-    IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle,
-    IonContent, IonInput, IonButton, IonIcon, IonBadge, IonTextarea
+    CommonModule, FormsModule, ReactiveFormsModule,
+    IonHeader, IonToolbar, IonButtons, IonBackButton, IonMenuButton, IonTitle,
+    IonContent, IonInput, IonButton, IonIcon, IonBadge, IonTextarea,
+    IonSearchbar, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, 
+    IonCardContent, IonItem, IonLabel
   ]
 })
 export class EnviarProjetoPage implements OnInit {
+  private scapService = inject(ScapDataService);
+  private toastCtrl = inject(ToastController);
+  private loadingCtrl = inject(LoadingController);
+  private router = inject(Router);
+  private ngZone = inject(NgZone);
 
   termoBusca = '';
   eventoEncontrado: Evento | null = null;
-  
-  novoProjeto = {
-    titulo: '',
-    resumo: '',
-    autor: 'Eu (Aluno)' // Em um app real, pegaria do usuário logado
-  };
+  novoProjeto = { titulo: '', resumo: '', autor: 'Eu' }; // 'autor' será ignorado pelo backend, que usa o usuário logado
 
-  constructor(
-    private scapService: ScapDataService,
-    private toastCtrl: ToastController,
-    private navCtrl: NavController
-  ) {
-    addIcons({ searchOutline, cloudUploadOutline, businessOutline, closeCircleOutline, textOutline, documentTextOutline });
+  constructor() {
+    addIcons({ 
+      searchOutline, cloudUploadOutline, businessOutline, closeCircleOutline, 
+      textOutline, documentTextOutline, locationOutline, sendOutline, arrowBackOutline
+    });
   }
 
   ngOnInit() { }
 
-  buscarEvento() {
+  async buscarEvento() {
     if (!this.termoBusca.trim()) return;
+    const loading = await this.loadingCtrl.create({ message: 'Buscando evento...' });
+    await loading.present();
 
-    const evento = this.scapService.buscarEvento(this.termoBusca);
-    
-    if (evento) {
-      this.eventoEncontrado = evento;
-    } else {
-      this.mostrarToast('Nenhum evento encontrado com este código ou nome.', 'warning');
-      this.eventoEncontrado = null;
-    }
+    this.scapService.buscarEvento(this.termoBusca).subscribe({
+      next: (evento) => {
+        loading.dismiss();
+        if (evento) {
+          console.log('Evento encontrado:', evento);
+          this.eventoEncontrado = evento;
+        } else {
+          this.mostrarToast('Nenhum evento encontrado com este código.', 'warning');
+          this.eventoEncontrado = null;
+        }
+      },
+      error: (err) => {
+        loading.dismiss();
+        console.error('Erro na busca:', err);
+        this.mostrarToast('Erro de conexão ao buscar evento.', 'danger');
+        this.eventoEncontrado = null;
+      }
+    });
   }
 
   limparBusca() {
     this.eventoEncontrado = null;
     this.termoBusca = '';
-    this.novoProjeto = { titulo: '', resumo: '', autor: 'Eu (Aluno)' };
+    this.novoProjeto = { titulo: '', resumo: '', autor: 'Eu' };
   }
 
   async enviar() {
+    console.log('Iniciando envio...');
     if (!this.eventoEncontrado) return;
-
     if (!this.novoProjeto.titulo || !this.novoProjeto.resumo) {
-      this.mostrarToast('Preencha todos os campos do projeto.', 'warning');
+      this.mostrarToast('Preencha todos os campos.', 'warning');
       return;
     }
 
-    const projeto = {
-      id: Date.now().toString(),
-      eventoId: this.eventoEncontrado.id,
-      eventoNome: this.eventoEncontrado.titulo,
+    const loading = await this.loadingCtrl.create({ message: 'Enviando projeto...' });
+    await loading.present();
+
+    const projeto: Partial<Projeto> = {
       titulo: this.novoProjeto.titulo,
       autor: this.novoProjeto.autor,
       resumo: this.novoProjeto.resumo,
-      status: 'Pendente' as any 
+      eventoId: this.eventoEncontrado.id,
+      eventoNome: this.eventoEncontrado.titulo
     };
 
-    this.scapService.submeterProjeto(projeto, this.eventoEncontrado);
-
-    await this.mostrarToast('Projeto enviado com sucesso!', 'success');
-    this.navCtrl.navigateBack('/meus-projetos');
+    // --- AQUI ESTAVA O PROBLEMA ---
+    // Antes, se não tivesse o .subscribe(), o código parava aqui.
+    this.scapService.submeterProjeto(projeto, this.eventoEncontrado).subscribe({
+      next: (res) => {
+        console.log('Sucesso no envio:', res);
+        loading.dismiss();
+        
+        // Navegação Segura
+        this.ngZone.run(() => {
+          this.router.navigate(['/dashboard'], { replaceUrl: true });
+        });
+        
+        this.mostrarToast('Projeto enviado com sucesso!', 'success');
+      },
+      error: (err) => {
+        console.error('Erro no envio:', err);
+        loading.dismiss();
+        
+        // Mostra erro detalhado se vier do Django
+        const msg = err.error?.detail || 'Erro ao enviar projeto. Tente novamente.';
+        this.mostrarToast(msg, 'danger');
+      }
+    });
   }
 
   async mostrarToast(msg: string, color: string) {
     const toast = await this.toastCtrl.create({
-      message: msg,
-      duration: 2000,
-      color: color,
-      position: 'top'
+      message: msg, duration: 2000, color: color, position: 'top'
     });
     toast.present();
   }

@@ -1,57 +1,66 @@
-<ion-content class="login-content">
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>Acesso SCAP</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
   <div class="login-container">
-    
-    <div class="login-header">
-      <div class="logo-box">
-        <h1>SCAP</h1>
-      </div>
-      <h2>Bem-vindo de volta!</h2>
-      <p>Faça login para gerenciar seus eventos.</p>
+    <div class="logo-section">
+      <!-- Ícone representativo -->
+      <ion-icon name="school-outline" class="main-icon"></ion-icon>
+      <h2>Bem-vindo</h2>
+      <p>Sistema de Cadastro e Avaliação</p>
     </div>
 
-    <div class="form-section">
-      <ion-input
-        class="custom-input"
-        label="E-mail Institucional"
-        label-placement="floating"
-        fill="outline"
-        placeholder="seu@email.com"
-        type="email"
-        [(ngModel)]="credentials.email"
-      >
-        <ion-icon slot="start" name="mail-outline"></ion-icon>
-      </ion-input>
+    <!-- Formulário Reativo -->
+    <form [formGroup]="form" (ngSubmit)="fazerLogin()">
+      
+      <ion-list lines="full" class="ion-margin-bottom">
+        
+        <ion-item>
+          <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
+          <ion-input 
+            formControlName="username" 
+            label="Usuário" 
+            labelPlacement="floating" 
+            placeholder="Digite seu usuário">
+          </ion-input>
+        </ion-item>
 
-      <ion-input
-        class="custom-input"
-        label="Senha"
-        label-placement="floating"
-        fill="outline"
-        type="password"
-        placeholder="••••••••"
-        [(ngModel)]="credentials.password"
-      >
-        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
-      </ion-input>
+        <ion-item>
+          <ion-icon name="lock-closed-outline" slot="start" color="primary"></ion-icon>
+          <ion-input 
+            formControlName="password" 
+            type="password" 
+            label="Senha" 
+            labelPlacement="floating" 
+            placeholder="Digite sua senha">
+          </ion-input>
+        </ion-item>
 
-      <div class="forgot-pass">
-        <a>Esqueceu a senha?</a>
-      </div>
+      </ion-list>
 
-      <ion-button expand="block" shape="round" size="large" class="login-btn" (click)="login()" [disabled]="isLoading">
-        <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
-        <span *ngIf="!isLoading">Entrar</span>
-        <ion-icon slot="end" name="log-in-outline" *ngIf="!isLoading"></ion-icon>
+      <ion-button expand="block" type="submit" [disabled]="form.invalid" size="large">
+        Entrar
+        <ion-icon slot="end" name="log-in-outline"></ion-icon>
       </ion-button>
-    </div>
 
-    <div class="login-footer">
-      <p>Ainda não tem conta?</p>
-      <ion-button fill="outline" shape="round" routerLink="/cadastro" color="secondary">
-        <ion-icon slot="start" name="person-add-outline"></ion-icon>
-        Criar Conta
-      </ion-button>
-    </div>
+    </form>
 
+    <!-- Rodapé com Links -->
+    <div class="footer-links ion-text-center ion-padding-top">
+      <ion-button fill="clear" size="small" color="medium">Esqueci a senha</ion-button>
+      
+      <!-- Botão de Cadastro Adicionado Aqui -->
+      <div style="margin-top: 30px; border-top: 1px solid var(--ion-color-light-shade); padding-top: 20px;">
+        <p style="color: var(--ion-color-medium); margin-bottom: 10px;">Não tem uma conta?</p>
+        <ion-button fill="outline" expand="block" routerLink="/cadastro" color="secondary">
+          Registrar-se
+        </ion-button>
+      </div>
+    </div>
   </div>
+
 </ion-content>

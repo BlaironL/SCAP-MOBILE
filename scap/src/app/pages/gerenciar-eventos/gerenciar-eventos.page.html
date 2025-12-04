@@ -1,0 +1,140 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gerenciar Eventos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="header-info">
+    <h2>Seus Eventos</h2>
+    <p>Toque em um evento para editar ou ver inscritos.</p>
+  </div>
+
+  <!-- LISTA DE EVENTOS -->
+  <ion-list lines="none">
+    <ion-item *ngFor="let evento of meusEventos" class="event-item" button (click)="abrirGerenciamento(evento)">
+      <ion-label>
+        <h2>{{ evento.titulo }}</h2>
+        <p>Código: <strong>{{ evento.codigo }}</strong></p>
+        <p><ion-icon name="calendar-outline"></ion-icon> {{ evento.data | date:'dd/MM/yyyy' }}</p>
+      </ion-label>
+      <ion-button slot="end" fill="clear">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+    
+    <div *ngIf="meusEventos.length === 0" class="ion-text-center ion-padding">
+      <p>Você ainda não criou nenhum evento.</p>
+      <ion-button routerLink="/criar-evento" fill="outline">Criar Evento</ion-button>
+    </div>
+  </ion-list>
+
+  <!-- MODAL DE GERENCIAMENTO -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="fecharModal()">
+    <ng-template>
+      
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Gerenciar</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="fecharModal()">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+        
+        <!-- ABAS (SEGMENT) -->
+        <ion-toolbar>
+          <ion-segment [value]="segmentoSelecionado" (ionChange)="trocarSegmento($event)">
+            <ion-segment-button value="detalhes">
+              <ion-label>Editar Info</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="projetos">
+              <ion-label>Projetos ({{ projetosDoEvento.length }})</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        
+        <!-- ABA 1: EDITAR DETALHES -->
+        <div *ngIf="segmentoSelecionado === 'detalhes' && eventoSelecionado">
+          <form (ngSubmit)="salvarAlteracoes()">
+            
+            <ion-item fill="outline" class="ion-margin-bottom">
+              <ion-label position="floating">Título</ion-label>
+              <ion-input [(ngModel)]="eventoSelecionado.titulo" name="titulo"></ion-input>
+            </ion-item>
+
+            <ion-item fill="outline" class="ion-margin-bottom">
+              <ion-label position="floating">Local</ion-label>
+              <ion-input [(ngModel)]="eventoSelecionado.local" name="local"></ion-input>
+            </ion-item>
+
+            <ion-item fill="outline" class="ion-margin-bottom">
+              <ion-label position="stacked">Descrição</ion-label>
+              <ion-textarea [(ngModel)]="eventoSelecionado.descricao" name="desc" rows="4"></ion-textarea>
+            </ion-item>
+
+            <ion-item lines="none" class="ion-margin-bottom">
+              <ion-icon slot="start" [name]="eventoSelecionado.privado ? 'lock-closed-outline' : 'lock-open-outline'"></ion-icon>
+              <ion-label>
+                <h2>Evento Privado</h2>
+                <p>Requer aprovação manual</p>
+              </ion-label>
+              <ion-toggle [(ngModel)]="eventoSelecionado.privado" name="privado" color="warning"></ion-toggle>
+            </ion-item>
+
+            <ion-button expand="block" type="submit" color="primary">
+              Salvar Alterações
+              <ion-icon slot="end" name="save-outline"></ion-icon>
+            </ion-button>
+            
+          </form>
+        </div>
+
+        <!-- ABA 2: LISTA DE PROJETOS -->
+        <div *ngIf="segmentoSelecionado === 'projetos'">
+          <ion-list>
+            <ion-item *ngFor="let proj of projetosDoEvento">
+              <ion-label class="ion-text-wrap">
+                <h3>{{ proj.titulo }}</h3>
+                <p>Autor: {{ proj.autor }}</p>
+                
+                <!-- Badge de Status -->
+                <ion-badge [color]="
+                  proj.status === 'Avaliado' ? 'success' : 
+                  (proj.status === 'Recusado' ? 'danger' : 
+                  (proj.status === 'Pendente' ? 'warning' : 'primary'))" 
+                  class="ion-margin-top">
+                  {{ proj.status }}
+                </ion-badge>
+              </ion-label>
+
+              <!-- AÇÕES: Só aparecem se estiver Pendente -->
+              <div slot="end" *ngIf="proj.status === 'Pendente'" class="actions-wrapper" style="display: flex; gap: 5px;">
+                <ion-button color="success" fill="clear" (click)="confirmarAcaoProjeto(proj, 'aprovar')">
+                  <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+                </ion-button>
+                <ion-button color="danger" fill="clear" (click)="confirmarAcaoProjeto(proj, 'recusar')">
+                  <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+                </ion-button>
+              </div>
+
+            </ion-item>
+
+            <div *ngIf="projetosDoEvento.length === 0" class="ion-text-center ion-padding">
+              <p>Nenhum projeto submetido para este evento ainda.</p>
+            </div>
+          </ion-list>
+        </div>
+
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

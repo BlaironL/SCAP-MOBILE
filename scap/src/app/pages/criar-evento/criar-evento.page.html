@@ -1,70 +1,91 @@
-<ion-content>
-  <div class="page-container">
-    
-    <div class="page-header">
-      <h1>Novo Evento</h1>
-      <p>Preencha as informações para cadastrar um novo evento acadêmico.</p>
-    </div>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Novo Evento</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-    <div class="form-card">
-      <form>
-        <div class="form-grid">
-          
-          <div class="input-group full-width">
-            <label>Título do Evento</label>
-            <ion-item lines="none">
-              <ion-input type="text" placeholder="Ex: Semana de Tecnologia 2025"></ion-input>
-            </ion-item>
-          </div>
+<ion-content class="ion-padding">
 
-          <div class="input-group">
-            <label>Data de Início</label>
-            <ion-item lines="none" id="open-date-start">
-              <ion-input value="02/12/2025" readonly></ion-input>
-              <ion-icon name="calendar-outline" slot="end"></ion-icon>
-            </ion-item>
-            </div>
+  <form [formGroup]="form" (ngSubmit)="salvar()">
 
-          <div class="input-group">
-            <label>Data de Término</label>
-            <ion-item lines="none">
-               <ion-input value="05/12/2025" readonly></ion-input>
-               <ion-icon name="calendar-outline" slot="end"></ion-icon>
-            </ion-item>
-          </div>
+    <ion-list lines="none">
 
-          <div class="input-group full-width">
-            <label>Local</label>
-            <ion-item lines="none">
-              <ion-icon name="location-outline" slot="start" color="medium"></ion-icon>
-              <ion-input type="text" placeholder="Ex: Auditório Central"></ion-input>
-            </ion-item>
-          </div>
+      <ion-item>
+        <ion-icon slot="start" name="text-outline"></ion-icon>
+        <ion-input
+          label="Título do Evento"
+          labelPlacement="floating"
+          formControlName="titulo"
+          placeholder="Ex: Feira de Ciências 2025">
+        </ion-input>
+      </ion-item>
 
-          <div class="input-group full-width">
-            <label>Descrição Detalhada</label>
-            <ion-item lines="none">
-              <ion-textarea rows="4" placeholder="Sobre o que é o evento..."></ion-textarea>
-            </ion-item>
-          </div>
+      <ion-item>
+        <ion-icon slot="start" name="location-outline"></ion-icon>
+        <ion-input
+          label="Local"
+          labelPlacement="floating"
+          formControlName="local"
+          placeholder="Ex: Auditório Central">
+        </ion-input>
+      </ion-item>
 
-           <div class="input-group full-width">
-            <label>Banner do Evento</label>
-            <div class="upload-box">
-              <ion-icon name="cloud-upload-outline"></ion-icon>
-              <span>Clique para fazer upload da imagem</span>
-            </div>
-          </div>
+      <ion-item>
+        <ion-icon slot="start" name="calendar-outline"></ion-icon>
+        <ion-label>Data do Evento</ion-label>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
-        </div>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime
+              id="datetime"
+              presentation="date-time"
+              formControlName="data"
+              [min]="minDate">
+            </ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
 
-        <div class="form-actions">
-          <ion-button class="btn-cancel" fill="solid">Cancelar</ion-button>
-          <ion-button type="submit" color="primary">Salvar Evento</ion-button>
-        </div>
+      <ion-item>
+        <ion-textarea
+          label="Descrição"
+          labelPlacement="floating"
+          formControlName="descricao"
+          rows="4"
+          placeholder="Sobre o que é o evento?">
+        </ion-textarea>
+      </ion-item>
 
-      </form>
-    </div>
+      <ion-item class="toggle-item">
+        <ion-icon
+          slot="start"
+          [name]="form.get('privado')?.value ? 'lock-closed-outline' : 'lock-open-outline'"
+          [color]="form.get('privado')?.value ? 'warning' : 'success'">
+        </ion-icon>
 
-  </div>
+        <ion-label>
+          <h2>Evento Privado?</h2>
+          <p>Requer aprovação de projetos</p>
+        </ion-label>
+
+        <ion-toggle formControlName="privado" color="warning"></ion-toggle>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-button
+      expand="block"
+      type="submit"
+      [disabled]="form.invalid"
+      size="large">
+      Criar Evento
+      <ion-icon slot="end" name="checkmark-done-outline"></ion-icon>
+    </ion-button>
+
+  </form>
+
 </ion-content>

@@ -1,86 +1,93 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { addIcons } from 'ionicons';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router'; // <--- 1. IMPORTE ISSO
+import { ScapDataService, Evento, Projeto, Notificacao } from '../../services/scap-data.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { addIcons } from 'ionicons'; 
 import { 
-  calendarOutline, documentTextOutline, peopleOutline, 
-  timeOutline, arrowForwardOutline, notificationsOutline 
+  notificationsOutline, 
+  calendarOutline, 
+  documentTextOutline, 
+  timeOutline, 
+  arrowForwardOutline, 
+  locationOutline, 
+  checkmark, 
+  close, 
+  settingsOutline 
 } from 'ionicons/icons';
-import { ModalController } from '@ionic/angular/standalone';
-
-// Ajuste os caminhos conforme sua estrutura, se necessário use '../../'
-import { NotificacoesModalComponent } from '../../components/notificacoes-modal/notificacoes-modal.component';
-import { ScapDataService } from '../../services/scap-data.service';
-
-// IMPORTAÇÕES EXPLÍCITAS (ESSENCIAL PARA ANDROID)
-import { 
-  IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, 
-  IonContent, IonGrid, IonRow, IonCol, IonIcon, IonButton, 
-  IonList, IonItem, IonLabel, IonBadge, IonCard 
-} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  // ADICIONAMOS TODOS OS COMPONENTES AQUI
   imports: [
-    CommonModule, FormsModule, RouterLink,
-    IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle,
-    IonContent, IonGrid, IonRow, IonCol, IonIcon, IonButton,
-    IonList, IonItem, IonLabel, IonBadge, IonCard
+    IonicModule, 
+    CommonModule, 
+    RouterModule // <--- 2. ADICIONE AQUI NA LISTA
   ]
 })
 export class DashboardPage implements OnInit {
+  // ... (O resto do seu código continua igual)
+  private scapService = inject(ScapDataService);
 
-  stats = {
-    eventosAtivos: 3,
-    meusProjetos: 1,
-    avaliacoesPendentes: 2
-  };
+  eventos$!: Observable<Evento[]>;
+  meusProjetos$!: Observable<Projeto[]>;
+  notificacoes$!: Observable<Notificacao[]>;
+  totalEventosAtivos$!: Observable<number>;
+  totalPendencias$!: Observable<number>;
+  isModalOpen = false;
 
-  proximosEventos = [
-    {
-      id: 1,
-      titulo: 'Semana de Tecnologia 2025',
-      data: '20/11/2025',
-      local: 'Auditório Principal',
-      status: 'Aberto'
-    },
-    {
-      id: 2,
-      titulo: 'Congresso de Medicina',
-      data: '05/12/2025',
-      local: 'Campus Saúde',
-      status: 'Em Andamento'
-    },
-    {
-      id: 3,
-      titulo: 'Feira de Ciências Agrárias',
-      data: '15/01/2026',
-      local: 'Pavilhão B',
-      status: 'Aberto'
-    }
-  ];
-
-  // CORREÇÃO: Injeção de dependência feita nos argumentos do construtor
-  constructor(
-    private modalCtrl: ModalController,
-    public scapService: ScapDataService
-  ) {
-    addIcons({ calendarOutline, documentTextOutline, peopleOutline, timeOutline, arrowForwardOutline, notificationsOutline });
+  constructor() {
+    addIcons({ 
+      notificationsOutline, 
+      calendarOutline, 
+      documentTextOutline, 
+      timeOutline, 
+      arrowForwardOutline, 
+      locationOutline, 
+      checkmark, 
+      close,
+      settingsOutline 
+    });
   }
 
   ngOnInit() {
+    this.eventos$ = this.scapService.eventos$;
+    this.notificacoes$ = this.scapService.notificacoes$;
+    this.meusProjetos$ = this.scapService.projetos$;
+
+    this.totalEventosAtivos$ = this.eventos$.pipe(
+      map(lista => lista.filter(e => e.status === 'Aberto').length)
+    );
+
+    this.totalPendencias$ = this.notificacoes$.pipe(
+      map(lista => lista.filter(n => !n.lida).length)
+    );
   }
 
-  // Lógica para abrir o modal de notificações
-  async abrirNotificacoes() {
-    const modal = await this.modalCtrl.create({
-      component: NotificacoesModalComponent
-    });
-    await modal.present();
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  aceitarProjeto(notificacao: Notificacao) {
+    this.scapService.responderSolicitacao(notificacao, true);
+    this.fecharSeVazio();
+  }
+
+  recusarProjeto(notificacao: Notificacao) {
+    this.scapService.responderSolicitacao(notificacao, false);
+    this.fecharSeVazio();
+  }
+
+  private fecharSeVazio() {
+    setTimeout(() => {
+      const atuais = this.scapService['_notificacoes'].value;
+      if (atuais.length === 0) {
+        this.isModalOpen = false;
+      }
+    }, 500);
   }
 }

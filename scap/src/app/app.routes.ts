@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login', // <--- MUDAMOS AQUI
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
@@ -14,9 +14,9 @@ export const routes: Routes = [
     path: 'cadastro',
     loadComponent: () => import('./pages/cadastro/cadastro.page').then( m => m.CadastroPage)
   },
-  // ... (Suas outras rotas dashboard, criar-evento, etc. continuam aqui)
   {
     path: 'dashboard',
+    // Se o seu dashboard estiver na raiz (src/app/dashboard), remova o "/pages" deste caminho.
     loadComponent: () => import('./pages/dashboard/dashboard.page').then( m => m.DashboardPage)
   },
   {
@@ -35,4 +35,8 @@ export const routes: Routes = [
     path: 'enviar-projeto',
     loadComponent: () => import('./pages/enviar-projeto/enviar-projeto.page').then( m => m.EnviarProjetoPage)
   },
+  {
+    path: 'gerenciar-eventos',
+    loadComponent: () => import('./pages/gerenciar-eventos/gerenciar-eventos.page').then( m => m.GerenciarEventosPage)
+  }
 ];
