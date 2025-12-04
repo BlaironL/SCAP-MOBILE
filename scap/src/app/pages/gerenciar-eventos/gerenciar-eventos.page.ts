@@ -25,7 +25,7 @@ import { ScapDataService, Evento, Projeto } from '../../services/scap-data.servi
 
 @Component({
   selector: 'app-gerenciar-eventos',
-  templateUrl: './gerenciar-eventos.page.html', // <--- CORREÇÃO 1: Aponta para o arquivo certo
+  templateUrl: './gerenciar-eventos.page.html',
   styleUrls: ['./gerenciar-eventos.page.scss'],
   standalone: true,
   imports: [
@@ -36,7 +36,7 @@ import { ScapDataService, Evento, Projeto } from '../../services/scap-data.servi
     IonSegment, IonSegmentButton, IonInput, IonTextarea, IonToggle, IonBadge
   ]
 })
-export class GerenciarEventosPage implements OnInit { // <--- CORREÇÃO 2: Nome da classe correto
+export class GerenciarEventosPage implements OnInit {
   private scapService = inject(ScapDataService);
   private toastCtrl = inject(ToastController);
   private alertCtrl = inject(AlertController); 
@@ -67,14 +67,14 @@ export class GerenciarEventosPage implements OnInit { // <--- CORREÇÃO 2: Nome
 
     this.scapService.projetos$.subscribe(projetos => {
       this.todosProjetos = projetos;
-      // Atualiza em tempo real se o modal estiver aberto
+      // Atualiza em tempo real se o modal estiver aberto e houver novos dados
       if (this.eventoSelecionado && this.isModalOpen) {
         this.filtrarProjetos(this.eventoSelecionado);
       }
     });
   }
 
-  // Forçar atualização ao entrar na tela
+  // Forçar atualização ao entrar na tela para garantir dados frescos do Backend
   ionViewWillEnter() {
     this.scapService.atualizarDados();
   }
@@ -88,9 +88,8 @@ export class GerenciarEventosPage implements OnInit { // <--- CORREÇÃO 2: Nome
     this.isModalOpen = true;
   }
 
-  // Método auxiliar para evitar erros de tipo (String vs Number)
+  // Método auxiliar para evitar erros de tipo (String vs Number nos IDs)
   private filtrarProjetos(evento: Evento) {
-    // Usa '==' para permitir que ID 5 (number) seja igual a "5" (string)
     this.projetosDoEvento = this.todosProjetos.filter(p => p.eventoId == evento.id);
   }
 

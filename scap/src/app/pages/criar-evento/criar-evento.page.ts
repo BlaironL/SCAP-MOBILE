@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'; // Router Nativo para navegação
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ToastController, LoadingController } from '@ionic/angular'; // Adicionado LoadingController
+import { ToastController, LoadingController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
   calendarOutline, 
@@ -43,7 +43,7 @@ export class CriarEventoPage implements OnInit {
   private scapService = inject(ScapDataService);
   private router = inject(Router);
   private toastCtrl = inject(ToastController);
-  private loadingCtrl = inject(LoadingController); // Injeção do Loading
+  private loadingCtrl = inject(LoadingController);
   private ngZone = inject(NgZone);
 
   form: FormGroup;
@@ -77,7 +77,7 @@ export class CriarEventoPage implements OnInit {
 
     const f = this.form.value;
 
-    // Não geramos ID ou Código aqui. O Django fará isso.
+    // Prepara o objeto para envio (Backend gera ID e Código)
     const novoEvento: Partial<Evento> = {
       titulo: f.titulo,
       local: f.local,
@@ -87,7 +87,7 @@ export class CriarEventoPage implements OnInit {
       status: 'Aberto'
     };
 
-    // Inscreve-se para receber a resposta do servidor
+    // Chama o serviço e inscreve-se na resposta
     this.scapService.criarEvento(novoEvento).subscribe({
       next: (eventoCriado) => {
         loading.dismiss();

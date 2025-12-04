@@ -5,7 +5,8 @@ import { switchMap, tap, map, catchError } from 'rxjs/operators';
 import { Capacitor } from '@capacitor/core';
 import { AuthService } from './auth.service';
 
-const isAndroid = Capacitor.getPlatform() === 'android';
+// --- CONFIGURAÇÃO NGROK ---
+// URL pública para acesso externo (APK)
 const API_URL = 'https://gracelynn-hydrated-sylvester.ngrok-free.dev/api';
 
 export interface Evento {
@@ -85,7 +86,11 @@ export class ScapDataService {
   private getAuthHeaders(): Observable<HttpHeaders> {
     return from(this.authService.getToken()).pipe(
       map(token => {
-        let headers = new HttpHeaders();
+        // --- CORREÇÃO AQUI ---
+        // Adicionamos o header 'ngrok-skip-browser-warning' para evitar a tela de HTML
+        let headers = new HttpHeaders()
+          .set('ngrok-skip-browser-warning', 'true'); 
+          
         if (token) {
           headers = headers.set('Authorization', `Bearer ${token}`);
         }
@@ -142,7 +147,7 @@ export class ScapDataService {
     ).subscribe(() => this.atualizarDados());
   }
 
-  // ADICIONADO: Método genérico para aprovar/recusar projetos
+  // Método genérico para aprovar/recusar projetos na tela de gerenciamento
   atualizarStatusProjeto(projetoId: string, novoStatus: string): Observable<any> {
     return this.getAuthHeaders().pipe(
       switchMap(headers => this.http.patch(`${API_URL}/projetos/${projetoId}/`, { status: novoStatus }, { headers })),
@@ -165,6 +170,7 @@ export class ScapDataService {
       switchMap(headers => this.http.patch(`${API_URL}/projetos/${notificacao.projetoId}/`, { status: novoStatus }, { headers }))
     ).subscribe(() => {
       this.atualizarDados();
+      // Remove a notificação da lista local
       const atuais = this._notificacoes.value.filter(n => n.id !== notificacao.id);
       this._notificacoes.next(atuais);
     });

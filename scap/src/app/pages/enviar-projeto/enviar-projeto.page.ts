@@ -38,7 +38,9 @@ export class EnviarProjetoPage implements OnInit {
 
   termoBusca = '';
   eventoEncontrado: Evento | null = null;
-  novoProjeto = { titulo: '', resumo: '', autor: 'Eu' }; // 'autor' será ignorado pelo backend, que usa o usuário logado
+  
+  // Autor é apenas visual aqui, o backend sobrescreve com o usuário logado
+  novoProjeto = { titulo: '', resumo: '', autor: 'Aluno' }; 
 
   constructor() {
     addIcons({ 
@@ -51,6 +53,7 @@ export class EnviarProjetoPage implements OnInit {
 
   async buscarEvento() {
     if (!this.termoBusca.trim()) return;
+    
     const loading = await this.loadingCtrl.create({ message: 'Buscando evento...' });
     await loading.present();
 
@@ -58,16 +61,14 @@ export class EnviarProjetoPage implements OnInit {
       next: (evento) => {
         loading.dismiss();
         if (evento) {
-          console.log('Evento encontrado:', evento);
           this.eventoEncontrado = evento;
         } else {
           this.mostrarToast('Nenhum evento encontrado com este código.', 'warning');
           this.eventoEncontrado = null;
         }
       },
-      error: (err) => {
+      error: () => {
         loading.dismiss();
-        console.error('Erro na busca:', err);
         this.mostrarToast('Erro de conexão ao buscar evento.', 'danger');
         this.eventoEncontrado = null;
       }
@@ -77,12 +78,12 @@ export class EnviarProjetoPage implements OnInit {
   limparBusca() {
     this.eventoEncontrado = null;
     this.termoBusca = '';
-    this.novoProjeto = { titulo: '', resumo: '', autor: 'Eu' };
+    this.novoProjeto = { titulo: '', resumo: '', autor: 'Aluno' };
   }
 
   async enviar() {
-    console.log('Iniciando envio...');
     if (!this.eventoEncontrado) return;
+
     if (!this.novoProjeto.titulo || !this.novoProjeto.resumo) {
       this.mostrarToast('Preencha todos os campos.', 'warning');
       return;
@@ -99,14 +100,11 @@ export class EnviarProjetoPage implements OnInit {
       eventoNome: this.eventoEncontrado.titulo
     };
 
-    // --- AQUI ESTAVA O PROBLEMA ---
-    // Antes, se não tivesse o .subscribe(), o código parava aqui.
     this.scapService.submeterProjeto(projeto, this.eventoEncontrado).subscribe({
-      next: (res) => {
-        console.log('Sucesso no envio:', res);
+      next: () => {
         loading.dismiss();
         
-        // Navegação Segura
+        // Navegação Segura para evitar travamentos no Android
         this.ngZone.run(() => {
           this.router.navigate(['/dashboard'], { replaceUrl: true });
         });
@@ -114,10 +112,8 @@ export class EnviarProjetoPage implements OnInit {
         this.mostrarToast('Projeto enviado com sucesso!', 'success');
       },
       error: (err) => {
-        console.error('Erro no envio:', err);
         loading.dismiss();
-        
-        // Mostra erro detalhado se vier do Django
+        console.error(err);
         const msg = err.error?.detail || 'Erro ao enviar projeto. Tente novamente.';
         this.mostrarToast(msg, 'danger');
       }
